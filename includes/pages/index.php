@@ -7,7 +7,7 @@
                 ---------------------------------------------------------- */
 
                 $.mask.definitions['f'] = "[A-Fa-f0-9]"; 
-//                $("#dateOfBirth").mask('99/99/9999', {placeholder:'-'});
+                $("#dateOfBirth").mask('99-99-9999', {placeholder:'X'});
                 $("#home_phone_first").mask('999', {placeholder:'X'});
                 $("#home_phone_ext").mask('99999999', {placeholder:'X'}); 
                 $("#mobile_phone_first").mask('999', {placeholder:'X'});
@@ -57,6 +57,7 @@
 </script>
 
 <?php
+       
         $toyear = date("Y") - 16;
         $fromyear = date("Y") - 25;
 
@@ -155,31 +156,46 @@ $(document).ready(function(){
     });
     
     
+    /**Age calculator + Datepicker **/
+    
       $( "#dateOfBirth" ).datepicker({
         changeMonth: true,
         changeYear: true,
         dateFormat: 'dd-mm-yy',
 
-        onSelect: function (date) {
-             var dob = new Date(date);
-             var today = new Date();
-
-            if (dob.getFullYear() + 26 < today.getFullYear())
-            {
-                alert(dob);
-            }
-            else
-            {
-                alert(dob);
-            }
+        onSelect: function () {             
+             var DateOfBirth = $("#dateOfBirth").val();
+             jQuery.ajax({
+                type: "POST",
+                url: "includes/pages/ageCalculator.php",
+                data: { dob: DateOfBirth },
+                     success: function(responseData) {
+                         $("#age").empty().append(responseData);
+                         if (responseData > 26){
+                             alert("fjaslkfjkalf");
+                         }
+                     },
+                     error: function() {
+                         alert("Error.");
+                     }
+             });        
         }
 
       });
+      
+    /**Age calculator**/
+    
+    /*Check applicant age before process*/
+    $("#form_submission").click(function(e){
+        if($("#applicant-age").text() > 25 ){
+            alert("too old, your age must be smaller than 26");
+            e.preventDefault();
+        }
+    });
     
 });
 
 </script>
-
 
 <?php
  
@@ -436,9 +452,10 @@ $(document).ready(function(){
                                 <tr><td colspan="2"><label><input type="radio" name="studies_status" id="pursuing_studies" style="margin-left:-3px" value="1" '.$undergraduate.' onclick="studyStatus(this.value);"/>Currently pursuing undergraduate studies</label></td></tr>
                                 <tr><td>'.$academic.'</td></tr>';
             
-            $age = '<div id="age" style="display:inline-block">Age : '.$count_age.'</div>';
+//            $age = '<div id="age" style="display:inline-block">Age : '.$count_age.'</div>';
+              $age = '<div id="age" style="width:200px"></div>';            
             
-                    $btn = '<input type="button" value="Cancel" onclick="redirect(\'index.php\')" style="padding:3px;width:100px"/> <input type="submit" name="submit" value="Save" style="padding:3px;width:100px"/> ';
+                    $btn = '<input type="button" value="Cancel" onclick="redirect(\'index.php\')" style="padding:3px;width:100px"/> <input type="submit" name="submit" id="form_submission" value="Save" style="padding:3px;width:100px"/> ';
             
   }
   }else{
@@ -465,8 +482,9 @@ $(document).ready(function(){
                         <tr><td colspan="2"><label><input type="radio" name="studies_status" id="pursuing_studies" style="margin-left:-3px" value="1"  onclick="studyStatus(this.value);"/>Currently pursuing undergraduate studies</label></td></tr>
                         <tr><td><div id="academic" style="display:none"><table><tr id="academic_year"><td width="180px">Current Academic Year</td><td><select name="study_year">'.ddlReplace(arrToDDL(tep_academic_year()),$_POST['study_year']).'</select></td></tr>   
                         <tr id="academic_semester"><td>Current Semester</td><td><select name="study_semester">'.ddlReplace(arrToDDL(tep_academic_semester()),$_POST['study_semester']).'</select></td></tr></table></div></td></tr><tr><td><label for="studies_status" class="error">Please select your gender</label></td></tr></fieldset>';
-    $age = '<div id="age">Age : '.$count_age.'</div>';
-    $btn = '<input type="submit" name="submit" value="Save" style="padding:3px;width:100px"/> <input type="button" value="Next" onclick="location.href=\'index.php?pages=academic_details\'" style="padding:3px;width:100px"/>';
+//    $age = '<div id="age">Age : '.$count_age.'</div>';
+    $age = 'Age : <div id="age" style="display:inline-block"></div>';
+    $btn = '<input type="submit" name="submit" id="form_submission" value="Save" style="padding:3px;width:100px"/> <input type="button" value="Next" onclick="location.href=\'index.php?pages=academic_details\'" style="padding:3px;width:100px"/>';
   }
 ?>
 
