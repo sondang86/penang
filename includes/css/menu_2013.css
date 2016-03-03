@@ -1,0 +1,113 @@
+#nav_menu {width: 100%;	height: 42px; background-color: #222;background: -webkit-gradient(linear, left top, left bottom, from(#555), to(#000)); background: -moz-linear-gradient(top, #555,  #000); }
+ul#ul_menu {float: left; text-align: left; list-style: none; margin: 0; padding: 0}
+ul#ul_menu li {
+	font-size: 12px;
+	cursor: pointer;
+	-webkit-transition: padding .05s linear;
+	-moz-transition: padding .05s linear;
+	-ms-transition: padding .05s linear;
+	-o-transition: padding .05s linear;
+	transition: padding .05s linear;
+}
+ul#ul_menu li.drop {
+	position: relative;
+}
+ul#ul_menu > li {
+	display: inline-block;
+        vertical-align: middle;
+        margin: 11px 33px 0 0;
+}
+ul#ul_menu li a.mainLink {
+	line-height: 17px;
+        font-size: 14px;
+	padding: 0 0px 0 0;
+        display: block;
+	color: #EEE;
+	-webkit-transition: all .1s ease-out;
+	-moz-transition: all .1s ease-out;
+	-ms-transition: all .1s ease-out;
+	-o-transition: all .1s ease-out;
+	transition: all .1s ease-out;
+}
+ul#ul_menu li a.mainLink:hover {
+	color: #FFF;
+        text-shadow: #FFF 0 0 3px;
+        text-decoration: none;
+}
+
+.dropOut .triangle {
+	width: 0;
+	height: 0;
+	position: absolute;
+	border-left: 8px solid transparent;
+	border-right: 8px solid transparent;
+	border-bottom: 8px solid white;
+	top: -6px;
+	left: 50%;
+	margin-left: -53px;
+}
+.dropdownContain {
+	width: 160px;
+	position: absolute;
+	z-index: 100;
+	left: 50%;
+	margin-left: -34px; /* half of width */
+        margin-top: -16px;
+	top: -400px;
+}
+.dropOut {
+	width: 160px;
+        background-color:#fbfbfb; 
+	float: left;
+	position: relative;
+	margin-top: 0px;
+        border-top: 1px solid #D2D2D2;
+        border-bottom: 1px solid #D2D2D2;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+        -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.3);
+	-moz-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.3);
+	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.3);
+	-webkit-transition: all .1s ease-out;
+	-moz-transition: all .1s ease-out;
+	-ms-transition: all .1s ease-out;
+	-o-transition: all .1s ease-out;
+	transition: all .1s ease-out;
+}
+
+.dropOut ul {float: left;padding: 10px 0; list-style: none}
+.dropOut ul li {
+	text-align: left;
+	float: left;
+	width: 145px;
+	padding: 5px 0 6px 15px;
+	margin: 0px;
+	color: #777;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	-webkit-transition: background .1s ease-out;
+	-moz-transition: background .1s ease-out;
+	-ms-transition: background .1s ease-out;
+	-o-transition: background .1s ease-out;
+	transition: background .1s ease-out;
+}
+
+.dropOut ul li:hover {
+background: #f6f6f6; background: #0078FF url(../../images/gradient.png) repeat-x 0 -100px !important;
+color: #FFF !important;
+-webkit-border-radius: 0;
+-moz-border-radius: 0;
+text-shadow: 0 1px 1px rgba(0, 0, 0, .1);
+}
+.dropOut ul li a{color: #555; font-size: 12px}
+.dropOut ul li:hover a{color: white; text-decoration: none}
+ul#ul_menu li:hover a.mainLink { color: white; text-shadow: #EEE 0 0 1px;}
+ul#ul_menu li:hover .dropdownContain { top: 30px; }
+ul#ul_menu li:hover .underline { border-bottom-color: #777; }
+ul#ul_menu li:hover .dropOut { opacity: 1; margin-top: 8px; }
+
+.dropOut ul li.nav_separator{border-top: 1px dashed #AAA; padding: 0 0 0 15px; margin: 2px 0}
+#home_logo{opacity: 0.9}
+#home_logo:hover{opacity: 1}

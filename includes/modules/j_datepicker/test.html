@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+		<title>jQuery datePicker simple datePicker demo</title>
+		
+	
+  
+		
+<script type="text/javascript" src="jquery-1.2.6.min.js"></script>		
+		
+		
+<script type="text/javascript" src="jquery.datePicker.js"></script>
+<script type="text/javascript" src="date.js"></script>
+<link rel="stylesheet" type="text/css" href="datePicker.css" />
+		
+      
+        <!-- page specific scripts -->
+		<script type="text/javascript" charset="utf-8">
+            $(function()
+            {
+				$('.date-pick').datePicker().val(new Date().asString()).trigger('change');
+            });
+		</script>
+		
+</head>
+	<body>
+
+  
+
+			
+							<input name="date1" id="date1" class="date-pick" />
+			
+
+	</body>
+</html>
