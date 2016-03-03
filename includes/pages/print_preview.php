@@ -374,7 +374,7 @@
                             
                                    echo' </table>
                                        <p><span style="color:red")*List max three awards obtained in two preceding years.*</span></p>
-                                       <p>Certified true copies of relevant certificates are to be attached at the end of the application.</p>
+                                       <p>Copies of relevant certificates are to be attached at the end of the application.</p>
                                 
                                                             ';
                 

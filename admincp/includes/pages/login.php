@@ -1,4 +1,4 @@
-<?
+<?php
 //Ecommerce Login Script
 //Delegate Functions
 if($_POST['submit']!=""){

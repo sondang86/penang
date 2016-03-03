@@ -1,9 +1,65 @@
+<!--<script type="text/javascript" src="./includes/js/jquery-1.9.1.min.js"></script>-->
+<script type="text/javascript" src="./includes/js/jquery.maskedinput.js"></script>
+<script>
+        $(function() {		
+
+                /* @normal masking rules 
+                ---------------------------------------------------------- */
+
+                $.mask.definitions['f'] = "[A-Fa-f0-9]"; 
+//                $("#dateOfBirth").mask('99/99/9999', {placeholder:'-'});
+                $("#home_phone_first").mask('999', {placeholder:'X'});
+                $("#home_phone_ext").mask('99999999', {placeholder:'X'}); 
+                $("#mobile_phone_first").mask('999', {placeholder:'X'});
+                $("#mobile_phone_ext").mask('99999999', {placeholder:'X'}); 
+                
+                $("#zipcode").mask('99999', {placeholder:'X'});
+                $("#dates").mask('99/99/9999', {placeholder:'_'});
+                $("#dates2").mask('99-99-9999', {placeholder:'_'});
+                $("#time").mask('99:99:99', {placeholder:'_'});
+                $("#date-time").mask('99/99/9999 99:99:99', {placeholder:'_'});
+                $("#currency").mask('999,999,999,999,999.99', {placeholder:'_'});
+                $("#ip4").mask('999.999.999.999', {placeholder:'_'});
+                $("#ip6").mask('9999:9999:9999:9:999:9999:9999:9999', {placeholder:'_'});
+                $("#isbn").mask('999-99-999-9999-9', {placeholder:'_'});
+                $("#isbn2").mask('999 99 999 9999 9', {placeholder:'_'});
+                $("#taxid").mask('99-9999999', {placeholder:'_'});
+                $("#serial").mask('***-****-****-****', {placeholder:'_'});
+                $("#color").mask('#ffffff', {placeholder:'_'});
+                $("#alpha").mask('aaaaaa-aaaaaa', {placeholder:'X'});
+                $("#product").mask("a*-999-a999",{placeholder:"_",
+                                         completed:function(){
+                                                alert("Congraturations! Product activated the with a valid key: "+this.val());
+                                         }
+                });
+
+                /* @advanced masking rules 
+                ------------------------------------------------------------------------ */	
+            var creditcard = $("#creditcard").mask('9999-9999-9999-9999', {placeholder:'X'});
+                $("#cardtype").change(
+                        function() {
+                                switch ($(this).val()){
+                                        case 'amex':
+                                          creditcard.unmask().mask('9999-999999-99999', {placeholder:'_'});
+                                          break;
+                                        default:
+                                          creditcard.unmask().mask('9999-9999-9999-9999', {placeholder:'X'});
+                                          break;
+                                  }
+                        }
+                );
+		  	
+		
+        });
+        
+ 
+
+</script>
 
 <?php
-
         $toyear = date("Y") - 16;
         $fromyear = date("Y") - 25;
-        
+
         if ($_GET['ic']=="registered"){
             echo "<script>alert('The NRIC No. had been registered!')</script>";
         }
@@ -98,9 +154,32 @@ $(document).ready(function(){
           $("#postal_address").show();
     });
     
- 
+    
+      $( "#dateOfBirth" ).datepicker({
+        changeMonth: true,
+        changeYear: true,
+        dateFormat: 'dd-mm-yy',
+
+        onSelect: function (date) {
+             var dob = new Date(date);
+             var today = new Date();
+
+            if (dob.getFullYear() + 26 < today.getFullYear())
+            {
+                alert(dob);
+            }
+            else
+            {
+                alert(dob);
+            }
+        }
+
+      });
+    
 });
+
 </script>
+
 
 <?php
  
@@ -142,7 +221,7 @@ $(document).ready(function(){
 
  
     if ($_POST['submit']=="Save"){
-   
+               
     if ($_POST[member_marital_status]=="Other"){
         $marital_status = tep_input($_POST['other_status']);
     }else{
@@ -175,7 +254,7 @@ $(document).ready(function(){
                                                                          member_citizenship =  '".$_POST['member_citizenship']."',
                                                                          member_sex = '".$_POST['member_sex']."',
                                                                          member_marital_status = '".$marital_status."',
-                                                                         member_dob ='".date_htmltomysql($member_dob)."',
+                                                                         member_dob ='".$_POST["member_dob"]."',
                                                                          member_pob = '".$_POST["member_pob"]."',
                                                                          member_home_address =  '".$home_address."',
                                                                          member_postal_address =  '".$postal_address."',
@@ -335,8 +414,8 @@ $(document).ready(function(){
             $h_phone = explode("-",$qry->member_home_number);
             $m_phone = explode("-",$qry->member_mobile_number);
             
-            $home_phone ='<input type="text" name="member_home_number" value="'.$h_phone[0].'" style="width:30px" maxlength="4"/> - <input type="text" name="member_home_number2" value="'.$h_phone[1].'"/>';
-            $mobile_phone = '<input type="text" name="member_mobile_number" value="'.$m_phone[0].'" style="width:30px" maxlength="4"/> - <input type="text" name="member_mobile_number2" value="'.$m_phone[1].'"/>';
+            $home_phone ='<input id="home_phone_first" type="text" name="member_home_number" value="'.$h_phone[0].'" style="width:30px" maxlength="3"/> - <input type="text" id="home_phone_ext" name="member_home_number2" maxlength="8" value="'.$h_phone[1].'"/>';
+            $mobile_phone = '<input type="text" id="mobile_phone_first" name="member_mobile_number" value="'.$m_phone[0].'" style="width:30px" maxlength="3"/> - <input type="text" id="mobile_phone_ext" name="member_mobile_number2" maxlength="8" value="'.$m_phone[1].'"/>';
             $email ='<input type="text" name="member_email" value="'.strtoupper($qry->member_email).'" disabled style="width:250px"/>';
             if ($qry->studies_status == 0){
                 $applying = "checked";
@@ -379,8 +458,8 @@ $(document).ready(function(){
                             <tr><td colspan="4"><input type="text" name="postal_address2" value="'.strtoupper($_POST['postal_address2']).'" style="width:345px;margin-left:-3px"/></td></tr>
                         <tr><td width="60px">Postcode: </td><td><input type="text"  name="postal_postcode" maxlength="5" style="width:100px" value="'.$_POST['postal_postcode'].'" required/></td><td>State:</td><td><select name="postal_state" required><option value="">-</option>'.arrToDDL(tep_state($_POST['postal_state'])).'</select></td</tr>
                         </table></div></td></tr>';
-    $home_phone ='<input type="text" name="member_home_number" value="'.$_POST['member_home_number'].'" style="width:30px" maxlength="4"/> - <input type="text" name="member_home_number2" value="'.$_POST['member_home_number2'].'"/>';
-    $mobile_phone = '<input type="text" name="member_mobile_number" value="'.$_POST['member_mobile_number'].'" style="width:30px" maxlength="4"/> - <input type="text" name="member_mobile_number2" value="'.$_POST['member_mobile_number2'].'"/>';
+    $home_phone ='<input type="text" id="home_phone_first" name="member_home_number" value="'.$_POST['member_home_number'].'" style="width:30px" maxlength="3"/> - <input type="text" id="home_phone_ext" name="member_home_number2" maxlength="8" value="'.$_POST['member_home_number2'].'"/>';
+    $mobile_phone = '<input type="text" id="mobile_phone_first" name="member_mobile_number" value="'.$_POST['member_mobile_number'].'" style="width:30px" maxlength="3"/> - <input type="text" id="mobile_phone_ext" name="member_mobile_number2" maxlength="8" value="'.$_POST['member_mobile_number2'].'"/>';
     $email ='<input type="text" name="member_email" value="'.strtoupper($_SESSION['member_email']).'" disabled style="width:250px"/>';
     $studies_status = ' <fieldset><tr><td colspan="2"><label><input type="radio" name="studies_status" style="margin-left:-3px" value="0"  onclick="studyStatus(this.value);" required/>Applying to enter university / college for undergraduate program</label></td></tr>
                         <tr><td colspan="2"><label><input type="radio" name="studies_status" id="pursuing_studies" style="margin-left:-3px" value="1"  onclick="studyStatus(this.value);"/>Currently pursuing undergraduate studies</label></td></tr>
@@ -394,7 +473,7 @@ $(document).ready(function(){
 <p style="font-weight:bold;font-size:18px;text-align:center">Scholarship Application</p>
 
 <div class="form_container">
-    <div style="background-color:rgb(240, 240, 240);text-align:center;padding:5px;font-size:14px;"><b>CLOSING DATE: 30 April 2015</b></div>
+    <div style="background-color:rgb(240, 240, 240);text-align:center;padding:5px;font-size:14px;"><b>CLOSING DATE 15 JUNE 2016</b></div>
     
     <form method="post" id="form">
     <div style="background-color:rgb(231, 98, 123);text-align:center;padding:5px;font-size:14px;margin-bottom:10px"><b>A. PERSONAL PARTICULARS</b></div>
@@ -410,19 +489,23 @@ $(document).ready(function(){
                     <td>Citizenship</td><td><fieldset><?=$citizenship?></fieldset></td>
                 </tr>
                 <tr>
-                    <td>Sex</td><td><fieldset><?=$sex?></fieldset></td>
+                    <td>Gender</td><td><fieldset><?=$sex?></fieldset></td>
                 </tr>
             <tr>
                 <td>Marital Status</td><td><fieldset><?=$marital_status?></fieldset></td>
             </tr>
             <tr>
-                <td>Date of Birth</td><td><?=$dob?>    <?=$age?></td>
+                <?php if ($editable == 0) {?>
+                <td>Date of Birth</td><td><?php echo $dob?>    <?php echo $age?></td>
+                <?php } else {?>
+                <td>Date of Birth (DD-MM-YYYY)</td><td><input type="text" id="dateOfBirth" name="member_dob" value="<?php echo $qry->member_dob ?>"?>    <?php echo $age?></td>
+                <?php }?>                
             </tr>
             <tr>
                 <td>Place of Birth</td><td><?=$pob?></td>
             </tr>
             <tr>
-                <td valign="top">Home Address (Permanent)</td>
+                <td valign="top">Address</td>
                 <td valign="top">
                     <table style="margin-top:-17px;margin-bottom:-20px;">
                         <tr><td colspan="4"><?=$home_address?></td></tr>

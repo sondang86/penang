@@ -6,6 +6,7 @@ define('DIR_WS_INCLUDES', 'includes/');
 define('DIR_WS_FUNCTIONS', DIR_WS_INCLUDES . 'functions/');
 define('DIR_WS_MODULES', DIR_WS_INCLUDES . 'modules/');
 define('DIR_WS_PAGES',DIR_WS_INCLUDES . 'pages/');
+define('DIR_WS_JS',DIR_WS_INCLUDES . 'js/');
 
 //GENERAL
 define('CURRENCY','RM');

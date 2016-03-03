@@ -9,7 +9,7 @@
   Released under the GNU General Public License
 */
 
-  function tep_db_connect($server = DB_SERVER, $username = DB_SERVER_USERNAME, $password = DB_SERVER_PASSWORD, $database = DB_DATABASE, $link = 'db_link') {
+  function tep_db_connect($server = "localhost", $username = 'root', $password = '', $database = 'pffmy_main', $link = 'db_link') {
     global $$link;
 
     if (USE_PCONNECT == 'true') {
@@ -174,5 +174,9 @@
 {
 	return date('Y-m-d',strtotime($date));
 }
+
+    function get_date(){
+
+    }
 
 ?>

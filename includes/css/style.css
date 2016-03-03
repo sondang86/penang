@@ -99,18 +99,16 @@ fieldset {border:0;padding:0}
 	form label.error
 		{
 		color: #c00;
-		
 		font-size: 100%;
 		font-weight: bold;
 		font-variant:small-caps;
-		
-		width:260px;
+		width: 105px;
 		display: none;
-
-	
 		padding:3px 0px 0px 5px;
-		
 		clear:both;
+		/* float: left; */
+		/* margin-top: 5px; */
+		/* float: right; */
 		}
 
 .submit_time {display:none}
@@ -123,4 +121,8 @@ fieldset {border:0;padding:0}
     .admin_view {display:none}
     body {font-size:12px;}
     .submit_time {display:block}
+}
+
+#examination_results tr td label{
+    display: block;
 }

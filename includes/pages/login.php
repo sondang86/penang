@@ -1,5 +1,5 @@
 
-<?
+<?php
 if ($_GET['reset']=="password"){
     echo "<script>alert('Please check your email to reset your password!')</script>";   
 }
@@ -26,7 +26,6 @@ if ($_GET['register']=="success"){
 
 
 if($_POST['submit']!=""){
-             
             $query = tep_query("SELECT * FROM ".MEMBER." WHERE member_status='1' AND member_ic='".$_POST['ic']."'");
             
             if(tep_num_rows($query)>0){

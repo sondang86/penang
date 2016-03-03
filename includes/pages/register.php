@@ -1,5 +1,4 @@
-
-<?
+<?php
 function createRandomPassword() { 
 
     $chars = "abcdefghijkmnopqrstuvwxyz023456789"; 

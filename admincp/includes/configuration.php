@@ -6,6 +6,7 @@ define('DIR_WS_INCLUDES', 'includes/');
 define('DIR_WS_FUNCTIONS', DIR_WS_INCLUDES . 'functions/');
 define('DIR_WS_MODULES', DIR_WS_INCLUDES . 'modules/');
 define('DIR_WS_PAGES',DIR_WS_INCLUDES . 'pages/');
+define('DIR_WS_JS',DIR_WS_INCLUDES . 'js/');
 
 //GENERAL
 define('CURRENCY','RM');
@@ -29,8 +30,8 @@ if($_SERVER['HTTP_HOST']!="localhost"){
     define('DB_SERVER_USERNAME', 'root');
     define('DB_SERVER_PASSWORD', '');
     define('DB_DATABASE', 'pff_main');
-    define('HTTP_SERVER', 'http://localhost/pff/admincp');
-    define('HTTP_DOMAIN', 'http://localhost/pff/admincp');
+    define('HTTP_SERVER', 'http://localhost/penangfuture/admincp');
+    define('HTTP_DOMAIN', 'http://localhost/penangfuture/admincp');
     define('ROOT_PATH', $_SERVER['DOCUMENT_ROOT']."/seekerpages");
 }
 

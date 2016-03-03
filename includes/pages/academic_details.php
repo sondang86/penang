@@ -646,7 +646,7 @@ function hideSTPM() {
                     $examination_subject = explode('|',$qry->examination_subject);
                     $examination_grades = explode("|",$qry->examination_grades);
                     $qualification_sub = '<input type="text" name="qualification_sub_1" value="'.strtoupper($examination_subject[0]).'" style="width:440px" required/>';
-                    $qualification_grade = '<input type="text" name="qualification_grade_1" value="'.strtoupper($examination_grades[0]).'" required/>';
+                    $qualification_grade = '<input type="number" name="qualification_grade_1" value="'.strtoupper($examination_grades[0]).'" min="3" max="4" step="0.01" required/>';
                     $qualification_year = '<td id="year_row" rowspan="'.$sub.'" valign="top" width="100px"><select name="stpm_year" style="width:100%" required><option value="">-</option>'.ddlReplace(arrToDDL(tep_year()),$qry->examination_year).'</select></td>';
 
             $qualification_cgpa = '<input type="text" name="qualification_cgpa" value="'.$qry->examination_cgpa.'" required/>';
@@ -755,7 +755,7 @@ function hideSTPM() {
                                 $examination_row ='
                                          <tr id="erow_2">
                                                 <td><input type="text" name="qualification_sub_2" value="'.strtoupper($examination_subject[$x]).'" style="width:440px"/></td>
-                                                <td><input type="text" name="qualification_grade_2" value="'.strtoupper($examination_grades[$x]).'"/></td>
+                                                <td><input type="number" name="qualification_grade_2" value="'.strtoupper($examination_grades[$x]).'" min="3" max="4" step="0.01"/></td>
                                          </tr>
                                 </tr>
                                  ';
@@ -787,8 +787,6 @@ function hideSTPM() {
                             echo'</table>
                 <a id="btnAdd_examination" class="add_new" href=""><img src="./images/add_row.png"></a>';
                     }
-                                
-                       
                        echo'</div>
                     <p>Cumulative Grade Point Average(CGPA):&nbsp;&nbsp;&nbsp;'.$qualification_cgpa.'</p>';
           
@@ -797,12 +795,12 @@ function hideSTPM() {
                     echo '<p>For candidates who are currently pursuing undergraduate courses.</p>
                               <p>University/College examination results and cumulative grade point average, if applicable.</p>
                               
-                                            <table class="details_table" id="college_result">
+                                            <table class="details_table examination_results" id="college_result">
                                                     <tr>
                                                             <th align="left" width="300px">University/College</th>
                                                             <th align="left" width="300px">Degree Title</th>
                                                             <th align="left" width="300px">Subject Taken</th>
-                                                            <th align="center">Grades</th>
+                                                            <th align="center">Gradesssss</th>
                                                     </tr>
                                          <tr>';
                    if ($editable =="0" || $editable =="admin" || $editable=="view"){
@@ -1023,7 +1021,7 @@ function hideSTPM() {
                          
                                    echo' </table>
                                        <p><span style="color:red")*List max three awards obtained in two preceding years.*</span></p>
-                                       <p>Certified true copies of relevant certificates are to be attached at the end of the application.</p>
+                                       <p>Copies of relevant certificates are to be attached at the end of the application.</p>
                                 
                                                             ';
                 
