@@ -27,7 +27,7 @@ if ($_GET['register']=="success"){
 
 if($_POST['submit']!=""){
             $query = tep_query("SELECT * FROM ".MEMBER." WHERE member_status='1' AND member_ic='".$_POST['ic']."'");
-            
+
             if(tep_num_rows($query)>0){
                 $info = tep_fetch_object($query);
                 if (md5($_POST['password'])==$info->member_password){
@@ -132,3 +132,8 @@ $(document).ready(function(){
 
 </body>
 </html>
+
+<?php
+//    $dataaa = md5("123456");
+//    print_r($dataaa);
+?>

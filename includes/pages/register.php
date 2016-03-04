@@ -1,4 +1,6 @@
 <?php
+
+
 function createRandomPassword() { 
 
     $chars = "abcdefghijkmnopqrstuvwxyz023456789"; 
@@ -42,7 +44,10 @@ if($_POST['submit']!=""){
                               if ($_POST['ic'][0]=='9' || $_POST['ic'][0] =='0' || ($_POST['ic'][0] == '8' && $_POST['ic'][1] =='9')){
                                $verificationCode = createRandomPassword();
                                tep_query("INSERT INTO ".MEMBER."(member_email,member_password,member_ic,member_status,member_created,fund_status) 
-                                       VALUES('".trim($_POST['email'])."','".md5($_POST['password'])."','".$_POST['ic']."','".$verificationCode."',NOW(),'PENDING')");
+                                       VALUES('".trim($_POST['email'])."','".md5($_POST['password'])."','".$_POST['ic']."',1 ,NOW(),'PENDING')");
+                               
+                               tep_query("INSERT INTO account_registration (member_email,verify_string,member_created,member_status) 
+                                       VALUES('".trim($_POST['email'])."','".$verificationCode."',NOW(),'PENDING')");
                                
                                $insertId = mysql_insert_id();	
                                $email = trim($_POST['email']);
@@ -53,7 +58,8 @@ if($_POST['submit']!=""){
                                                                                                     Best regards,<br/>
 					Penang Future Foundation\n\n\n<br/>";
 				$content_title = "Penang Future Foundation Account Verification";
-				send_mail($email, $template, $content_title);
+//				send_mail($email, $template, $content_title);
+                                PHPMail($email,$template,$content_title );
                              redirect('index.php?pages=login&register=verify');
                               }else{
                                   echo "<script>alert('Age limit is 25 years or younger as at 1st of January!')</script>";
