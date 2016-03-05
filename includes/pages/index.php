@@ -188,7 +188,7 @@ $(document).ready(function(){
     /*Check applicant age before process*/
     $("#form_submission").click(function(e){
         if($("#applicant-age").text() > 25 ){
-            alert("too old, your age must be smaller than 26");
+            alert("too old, your age must be smaller than 25");
             e.preventDefault();
         }
     });

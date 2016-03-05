@@ -43,20 +43,32 @@ if($_POST['submit']!=""){
                             if(filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)){ 
                               if ($_POST['ic'][0]=='9' || $_POST['ic'][0] =='0' || ($_POST['ic'][0] == '8' && $_POST['ic'][1] =='9')){
                                $verificationCode = createRandomPassword();
+                               
                                tep_query("INSERT INTO ".MEMBER."(member_email,member_password,member_ic,member_status,member_created,fund_status) 
-                                       VALUES('".trim($_POST['email'])."','".md5($_POST['password'])."','".$_POST['ic']."',1 ,NOW(),'PENDING')");
+                                       VALUES('".trim($_POST['email'])."','".md5($_POST['password'])."','".$_POST['ic']."',0 ,NOW(),'PENDING')");
                                
-                               tep_query("INSERT INTO account_registration (member_email,verify_string,member_created,member_status) 
-                                       VALUES('".trim($_POST['email'])."','".$verificationCode."',NOW(),'PENDING')");
+                               $_SESSION['insertId'] = mysql_insert_id();
+                               $insertId = mysql_insert_id();
+                               $verication_link = 'index.php?pages=register&id='."$insertId".'&code='."$verificationCode";
                                
-                               $insertId = mysql_insert_id();	
+                               tep_query("INSERT INTO account_registration (member_email,status, verify_string,member_created,member_status, member_id, verification_link) 
+                                       VALUES('".trim($_POST['email'])."',0 , '".$verificationCode."',NOW(),'PENDING', $insertId, '$verication_link')");
+                               
                                $email = trim($_POST['email']);
-				$template = "Hi, <br/><br/>Thank you for your registration in Penang Future Foundation<br><br>
+//				$template = "Hi, <br/><br/>Thank you for your registration in Penang Future Foundation<br><br>
+//					Please click on the link below to verify your account<br>
+//					<a href=\"".HTTP_SERVER."index.php?pages=register&id=".$insertId."&code=".$verificationCode."\">http://www.penangfuturefoundation.my/index.php?pages=register&id=".$insertId."&code=".$verificationCode."</a><br><br>
+//					--<br><br/>
+//                                                                                                    Best regards,<br/>
+//					Penang Future Foundation\n\n\n<br/>";
+                                
+                                $template = "Hi, <br/><br/>Thank you for your registration in Penang Future Foundation<br><br>
 					Please click on the link below to verify your account<br>
-					<a href=\"".HTTP_SERVER."index.php?pages=register&id=".$insertId."&code=".$verificationCode."\">http://www.penangfuturefoundation.my/index.php?pages=register&id=".$insertId."&code=".$verificationCode."</a><br><br>
+					<a href=\"http://localhost/penangfuture/index.php?pages=register&id=".$insertId."&code=".$verificationCode."\">http://localhost/penangfuture/index.php?pages=register&id=".$insertId."&code=".$verificationCode."</a><br><br>
 					--<br><br/>
                                                                                                     Best regards,<br/>
 					Penang Future Foundation\n\n\n<br/>";
+                                
 				$content_title = "Penang Future Foundation Account Verification";
 //				send_mail($email, $template, $content_title);
                                 PHPMail($email,$template,$content_title );
@@ -78,7 +90,9 @@ if($_POST['submit']!=""){
 
  if ($_GET['code']!="" && $_GET['id']!=""){
       tep_query ("UPDATE ".MEMBER." SET member_status = 1 WHERE member_id = '".$_GET['id']."'");
-       redirect('index.php?pages=login?register=success');
+      tep_query ("UPDATE account_registration SET status = 1 WHERE member_id = '".$_SESSION['insertId']."'");
+      unset($_SESSION['insertId']);
+      redirect('index.php?pages=login?register=success');
  }
 ?>
 

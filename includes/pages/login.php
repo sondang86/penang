@@ -24,12 +24,16 @@ if ($_GET['register']=="success"){
      echo "<script>alert('You had successful verify  your account!')</script>";   
 }
 
+$account_query = tep_query("SELECT * FROM account_registration");            
+$account_registration = tep_fetch_object($account_query);
 
 if($_POST['submit']!=""){
-            $query = tep_query("SELECT * FROM ".MEMBER." WHERE member_status='1' AND member_ic='".$_POST['ic']."'");
-
-            if(tep_num_rows($query)>0){
-                $info = tep_fetch_object($query);
+//            $query = tep_query("SELECT * FROM ".MEMBER." WHERE member_status='1' AND member_ic='".$_POST['ic']."'");
+            $query = tep_query("SELECT * FROM ".MEMBER." WHERE member_ic='".$_POST['ic']."'");
+            $info = tep_fetch_object($query);
+            
+            if(tep_num_rows($query)>0 && $info->member_status == 1){ // User email verified
+                
                 if (md5($_POST['password'])==$info->member_password){
                     setcookie("member_id", md5("tmstms".$info->member_id ), strtotime(date("23:59:59")));
                     $_SESSION['member_id'] = $info->member_id;
@@ -40,12 +44,31 @@ if($_POST['submit']!=""){
                     
                         redirect('index.php?pages=index');
                     
-                } else{
+                }else{
                 $errormessage="Invalid user.";
-            }
-}else{
-                $errormessage="Invalid user.";
-            }
+                }
+            } elseif (tep_num_rows($query)>0 && $info->member_status == 0 && md5($_POST['password'])==$info->member_password) { //User account not yet activate
+                    
+                    $errormessage="<div class='blink_me'>Your account has not yet activate. Click <form method='post'><input type='submit' name='resend_email' value='here'> to resend the verification link</div></form>";
+                
+                } else{ //Wrong email or IC
+                            $errormessage="Invalid user.";
+                }
+}
+
+//re-send email
+if(isset($_POST['resend_email'])){    
+    $template = "Hi, <br/><br/>Thank you for your registration in Penang Future Foundation<br><br>
+        Please click on the link below to verify your account<br>
+        <a href=\"http://localhost/penangfuture/" .$account_registration->verification_link ."\">http://localhost/penangfuture/index.php?pages=register&id=".$insertId."&code=".$account_registration->verification_link."</a><br><br>
+        --<br><br/>
+                                                                    Best regards,<br/>
+        Penang Future Foundation\n\n\n<br/>";
+
+    $content_title = "Penang Future Foundation Account Verification";
+    
+    PHPMail($account_registration->member_email,$template,$content_title );
+
 }
 
 ?>
@@ -75,6 +98,7 @@ if($_POST['submit']!=""){
     animation-timing-function: linear;
     animation-iteration-count: infinite;
 }
+
 
 @-moz-keyframes blinker {  
     0% { opacity: 1.0; }
