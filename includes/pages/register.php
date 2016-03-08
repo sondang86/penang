@@ -1,6 +1,5 @@
 <?php
 
-
 function createRandomPassword() { 
 
     $chars = "abcdefghijkmnopqrstuvwxyz023456789"; 
@@ -62,16 +61,21 @@ if($_POST['submit']!=""){
 //                                                                                                    Best regards,<br/>
 //					Penang Future Foundation\n\n\n<br/>";
                                 
-                                $template = "Hi, <br/><br/>Thank you for your registration in Penang Future Foundation<br><br>
-					Please click on the link below to verify your account<br>
-					<a href=\"http://localhost/penangfuture/index.php?pages=register&id=".$insertId."&code=".$verificationCode."\">http://localhost/penangfuture/index.php?pages=register&id=".$insertId."&code=".$verificationCode."</a><br><br>
-					--<br><br/>
-                                                                                                    Best regards,<br/>
-					Penang Future Foundation\n\n\n<br/>";
+                                $template = "Hi, \r\n Thank you for your registration in Penang Future Foundation \r\n
+                                Please click on the link below to verify your account \r\n
+                                http://form.penangfuturefoundation.my/index.php?pages=register&id=".$insertId."&code=".$verificationCode." \r\n \r\n
+                                -- \r\n \r\n
+                                                                                            Best regards,\r\n
+                                Penang Future Foundation \r\n \r\n \r\n \r\n";
                                 
 				$content_title = "Penang Future Foundation Account Verification";
 //				send_mail($email, $template, $content_title);
-                                PHPMail($email,$template,$content_title );
+//                              PHPMail($email,$template,$content_title );
+
+                                $headers = 'From: info@penangfuturefoundation.my' . "\r\n";
+
+                                mail($email, $content_title, $template, $headers);
+
                              redirect('index.php?pages=login&register=verify');
                               }else{
                                   echo "<script>alert('Age limit is 25 years or younger as at 1st of January!')</script>";
