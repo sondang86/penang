@@ -188,7 +188,7 @@ $(document).ready(function(){
     /*Check applicant age before process*/
     $("#form_submission").click(function(e){
         if($("#applicant-age").text() > 25 ){
-            alert("too old, your age must be smaller than 25");
+            alert("We accept the candidate who age smaller than 25. Thank you");
             e.preventDefault();
         }
     });
@@ -569,3 +569,20 @@ $(document).ready(function(){
     </div>
     </form>
 </div>
+
+<?php
+    $get_dob = tep_query("SELECT * FROM personal_details WHERE member_id=$qry->member_id");
+    while ($row = mysql_fetch_row($get_dob)) {
+            print_r($row);
+    }
+
+//    $current_ageQuery = "SELECT TIMESTAMPDIFF(YEAR, '10-04-1990', CURDATE()) AS age";
+//    $current_age = tep_query($current_ageQuery);
+//    while ($row = mysql_fetch_row($current_age)) {
+//        print_r($row);
+//}
+//    print_r($current_age);
+    $ikfjasdklfja = "fklasjklfajf";
+    $ikfjasdklfja2 = "fklasjklfajf";
+    $ikfjasdklfja3 = "fklasjklfajf";
+?>

@@ -56,18 +56,27 @@ if($_POST['submit']!=""){
                 }
 }
 
-//re-send email
-if(isset($_POST['resend_email'])){    
+//re-send email when username & password match
+if(isset($_POST['resend_email'])){   
+    $headers = 'From: info@penangfuturefoundation.my' . "\r\n";
+    $content_title = "Penang Future Foundation Account Verification";
     $template = "Hi, <br/><br/>Thank you for your registration in Penang Future Foundation<br><br>
         Please click on the link below to verify your account<br>
-        <a href=\"http://localhost/penangfuture/" .$account_registration->verification_link ."\">http://localhost/penangfuture/index.php?pages=register&id=".$insertId."&code=".$account_registration->verification_link."</a><br><br>
+        <a href=\"http://localhost/penangfuture/" .$account_registration->verification_link ."\">http://localhost/penangfuture/".$account_registration->verification_link."</a><br><br>
         --<br><br/>
                                                                     Best regards,<br/>
-        Penang Future Foundation\n\n\n<br/>";
-
-    $content_title = "Penang Future Foundation Account Verification";
+        Penang Future Foundation\n\n\n<br/>";    
     
     PHPMail($account_registration->member_email,$template,$content_title );
+    
+//    $template = "Hi, \r\n Thank you for your registration in Penang Future Foundation \r\n "
+//                                        . "Please click on the link below to verify your account \r\n http://form.penangfuturefoundation.my/index.php?pages=register&id=".$insertId."&code=".$verificationCode." \r\n \r\n
+//                                            ========= User Account Log ========= \r\n
+//                                            "
+//                                            .$account_info['member_created']."             Account Registration \r\n \r\n
+//
+//				-- \r\n \r\n                                                                                          Best regards,\r\n Penang Future Foundation \r\n \r\n \r\n \r\n";
+//    mail($account_registration->member_email, $content_title, $template, $headers);
 
 }
 

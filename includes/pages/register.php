@@ -50,27 +50,30 @@ if($_POST['submit']!=""){
                                $insertId = mysql_insert_id();
                                $verication_link = 'index.php?pages=register&id='."$insertId".'&code='."$verificationCode";
                                
+                               //Insert data to account registration
                                tep_query("INSERT INTO account_registration (member_email,status, verify_string,member_created,member_status, member_id, verification_link) 
                                        VALUES('".trim($_POST['email'])."',0 , '".$verificationCode."',NOW(),'PENDING', $insertId, '$verication_link')");
                                
-                               $email = trim($_POST['email']);
-//				$template = "Hi, <br/><br/>Thank you for your registration in Penang Future Foundation<br><br>
-//					Please click on the link below to verify your account<br>
-//					<a href=\"".HTTP_SERVER."index.php?pages=register&id=".$insertId."&code=".$verificationCode."\">http://www.penangfuturefoundation.my/index.php?pages=register&id=".$insertId."&code=".$verificationCode."</a><br><br>
-//					--<br><br/>
-//                                                                                                    Best regards,<br/>
-//					Penang Future Foundation\n\n\n<br/>";
+                               //Get user account registration information
+                               $query = tep_query("SELECT * FROM account_registration WHERE member_id=$insertId");
+                                while ($row = mysql_fetch_array($query)) {
+                                $account_info = $row;
+                                }                               
+                               
+//                               Sending message to user
+                                $email = trim($_POST['email']);  
+                                $content_title = "Penang Future Foundation Account Verification";
+                                $template = "Hi, \r\n Thank you for your registration in Penang Future Foundation \r\n "
+                                        . "Please click on the link below to verify your account \r\n http://form.penangfuturefoundation.my/index.php?pages=register&id=".$insertId."&code=".$verificationCode." \r\n \r\n
+                                            ========= User Account Log ========= \r\n
+                                            "
+                                            .$account_info['member_created']."             Account Registration \r\n \r\n
+
+				-- \r\n \r\n                                                                                          Best regards,\r\n Penang Future Foundation \r\n \r\n \r\n \r\n";
                                 
-                                $template = "Hi, \r\n Thank you for your registration in Penang Future Foundation \r\n
-                                Please click on the link below to verify your account \r\n
-                                http://form.penangfuturefoundation.my/index.php?pages=register&id=".$insertId."&code=".$verificationCode." \r\n \r\n
-                                -- \r\n \r\n
-                                                                                            Best regards,\r\n
-                                Penang Future Foundation \r\n \r\n \r\n \r\n";
-                                
-				$content_title = "Penang Future Foundation Account Verification";
+				
 //				send_mail($email, $template, $content_title);
-//                              PHPMail($email,$template,$content_title );
+//                                PHPMail($email,$template,$content_title );
 
                                 $headers = 'From: info@penangfuturefoundation.my' . "\r\n";
 
@@ -92,6 +95,7 @@ if($_POST['submit']!=""){
 
 }
 
+//Update user status after verified by email
  if ($_GET['code']!="" && $_GET['id']!=""){
       tep_query ("UPDATE ".MEMBER." SET member_status = 1 WHERE member_id = '".$_GET['id']."'");
       tep_query ("UPDATE account_registration SET status = 1 WHERE member_id = '".$_SESSION['insertId']."'");
@@ -149,7 +153,14 @@ $(document).ready(function(){
         </div>
     </div>
 </form>
-
-
 </body>
 </html>
+
+<?php
+//    $query = tep_query("SELECT * FROM account_registration WHERE member_id=2281");
+//    while ($account_info = mysql_fetch_array($query)) {
+//         $my_data = $account_info;
+//     }
+//    
+//    print_r($my_data);
+?>

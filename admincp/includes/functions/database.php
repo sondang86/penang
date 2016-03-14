@@ -9,7 +9,7 @@
   Released under the GNU General Public License
 */
 
-  function tep_db_connect($server = "localhost", $username = 'root', $password = '', $database = 'pffmy_main', $link = 'db_link') {
+  function tep_db_connect($server = "localhost", $username = 'pffmy', $password = '%#&#$t*9(HdB', $database = 'pffmy_main', $link = 'db_link') {
     global $$link;
 
     if (USE_PCONNECT == 'true') {

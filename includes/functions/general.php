@@ -14,7 +14,7 @@ function PHPMail($email, $template, $content_title){
     $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
     $mail->Port = 587;                                    // TCP port to connect to
 
-    $mail->setFrom('dang.viet.son.hp4@gmail.com', 'Mailer');
+    $mail->setFrom('dang.viet.son.hp@gmail.com', 'Mailer');
     $mail->addAddress($email);     // Add a recipient
 
     $mail->isHTML(true);                                  // Set email format to HTML
@@ -24,7 +24,7 @@ function PHPMail($email, $template, $content_title){
 
     if(!$mail->send()) {
         echo 'Message could not be sent.';
-        echo 'Mailer Error: ' . $mail->ErrorInfo;
+        echo 'Mailer Error: ' . $mail->ErrorInfo;die;
     } else {
         echo 'Message has been sent';
     }

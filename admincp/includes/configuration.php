@@ -29,9 +29,9 @@ if($_SERVER['HTTP_HOST']!="localhost"){
 } else{
     define('DB_SERVER_USERNAME', 'root');
     define('DB_SERVER_PASSWORD', '');
-    define('DB_DATABASE', 'pff_main');
-    define('HTTP_SERVER', 'http://localhost/penangfuture/admincp');
-    define('HTTP_DOMAIN', 'http://localhost/penangfuture/admincp');
+    define('DB_DATABASE', 'pffmy_main');
+    define('HTTP_SERVER', 'http://localhost/pff');
+    define('HTTP_DOMAIN', 'http://localhost/pff');
     define('ROOT_PATH', $_SERVER['DOCUMENT_ROOT']."/seekerpages");
 }
 
