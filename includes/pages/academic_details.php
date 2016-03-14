@@ -1,6 +1,23 @@
 <style>
     .details_table {width:100%}
 </style>
+<script>
+    //Alert if exceeded defined min max value
+    $(document).ready(function(){
+        $('#examination_result').on("keyup",'#qualification_grade', function(){
+            if($(this).val()>=4) {
+                alert("Your CGPA cannot exceed 4.00. Thank you.");
+            } ;
+        });
+
+        $('#examination_result').on("keyup",'#qualification_grade', function(){
+            if($(this).val() < 3) {
+                alert("Sorry to inform that you are not quality for scholarship application because your CGPA is less than 3.00");
+            } ;
+        });
+    });
+</script>
+
 <?php
 
 if ($_GET['qualified']=="not"){

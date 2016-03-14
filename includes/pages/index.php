@@ -1,58 +1,68 @@
 <!--<script type="text/javascript" src="./includes/js/jquery-1.9.1.min.js"></script>-->
 <script type="text/javascript" src="./includes/js/jquery.maskedinput.js"></script>
 <script>
-        $(function() {		
+//        $(function() {		
+//
+//                /* @normal masking rules 
+//                ---------------------------------------------------------- */
+//
+//                $.mask.definitions['f'] = "[A-Fa-f0-9]"; 
+//                $("#dateOfBirth").mask('99-99-9999', {placeholder:'X'});
+//                $("#home_phone_first").mask('999', {placeholder:'X'});
+//                $("#home_phone_ext").mask('99999999', {placeholder:'X'}); 
+//                $("#mobile_phone_first").mask('999', {placeholder:'X'});
+//                $("#mobile_phone_ext").mask('99999999', {placeholder:'X'}); 
+//                
+//                $("#zipcode").mask('99999', {placeholder:'X'});
+//                $("#dates").mask('99/99/9999', {placeholder:'_'});
+//                $("#dates2").mask('99-99-9999', {placeholder:'_'});
+//                $("#time").mask('99:99:99', {placeholder:'_'});
+//                $("#date-time").mask('99/99/9999 99:99:99', {placeholder:'_'});
+//                $("#currency").mask('999,999,999,999,999.99', {placeholder:'_'});
+//                $("#ip4").mask('999.999.999.999', {placeholder:'_'});
+//                $("#ip6").mask('9999:9999:9999:9:999:9999:9999:9999', {placeholder:'_'});
+//                $("#isbn").mask('999-99-999-9999-9', {placeholder:'_'});
+//                $("#isbn2").mask('999 99 999 9999 9', {placeholder:'_'});
+//                $("#taxid").mask('99-9999999', {placeholder:'_'});
+//                $("#serial").mask('***-****-****-****', {placeholder:'_'});
+//                $("#color").mask('#ffffff', {placeholder:'_'});
+//                $("#alpha").mask('aaaaaa-aaaaaa', {placeholder:'X'});
+//                $("#product").mask("a*-999-a999",{placeholder:"_",
+//                                         completed:function(){
+//                                                alert("Congraturations! Product activated the with a valid key: "+this.val());
+//                                         }
+//                });
+//
+//                /* @advanced masking rules 
+//                ------------------------------------------------------------------------ */	
+//            var creditcard = $("#creditcard").mask('9999-9999-9999-9999', {placeholder:'X'});
+//                $("#cardtype").change(
+//                        function() {
+//                                switch ($(this).val()){
+//                                        case 'amex':
+//                                          creditcard.unmask().mask('9999-999999-99999', {placeholder:'_'});
+//                                          break;
+//                                        default:
+//                                          creditcard.unmask().mask('9999-9999-9999-9999', {placeholder:'X'});
+//                                          break;
+//                                  }
+//                        }
+//                );
+//		  	
+//		
+//        });
 
-                /* @normal masking rules 
-                ---------------------------------------------------------- */
-
-                $.mask.definitions['f'] = "[A-Fa-f0-9]"; 
-                $("#dateOfBirth").mask('99-99-9999', {placeholder:'X'});
-                $("#home_phone_first").mask('999', {placeholder:'X'});
-                $("#home_phone_ext").mask('99999999', {placeholder:'X'}); 
-                $("#mobile_phone_first").mask('999', {placeholder:'X'});
-                $("#mobile_phone_ext").mask('99999999', {placeholder:'X'}); 
-                
-                $("#zipcode").mask('99999', {placeholder:'X'});
-                $("#dates").mask('99/99/9999', {placeholder:'_'});
-                $("#dates2").mask('99-99-9999', {placeholder:'_'});
-                $("#time").mask('99:99:99', {placeholder:'_'});
-                $("#date-time").mask('99/99/9999 99:99:99', {placeholder:'_'});
-                $("#currency").mask('999,999,999,999,999.99', {placeholder:'_'});
-                $("#ip4").mask('999.999.999.999', {placeholder:'_'});
-                $("#ip6").mask('9999:9999:9999:9:999:9999:9999:9999', {placeholder:'_'});
-                $("#isbn").mask('999-99-999-9999-9', {placeholder:'_'});
-                $("#isbn2").mask('999 99 999 9999 9', {placeholder:'_'});
-                $("#taxid").mask('99-9999999', {placeholder:'_'});
-                $("#serial").mask('***-****-****-****', {placeholder:'_'});
-                $("#color").mask('#ffffff', {placeholder:'_'});
-                $("#alpha").mask('aaaaaa-aaaaaa', {placeholder:'X'});
-                $("#product").mask("a*-999-a999",{placeholder:"_",
-                                         completed:function(){
-                                                alert("Congraturations! Product activated the with a valid key: "+this.val());
-                                         }
-                });
-
-                /* @advanced masking rules 
-                ------------------------------------------------------------------------ */	
-            var creditcard = $("#creditcard").mask('9999-9999-9999-9999', {placeholder:'X'});
-                $("#cardtype").change(
-                        function() {
-                                switch ($(this).val()){
-                                        case 'amex':
-                                          creditcard.unmask().mask('9999-999999-99999', {placeholder:'_'});
-                                          break;
-                                        default:
-                                          creditcard.unmask().mask('9999-9999-9999-9999', {placeholder:'X'});
-                                          break;
-                                  }
-                        }
-                );
-		  	
-		
-        });
-        
- 
+//validation accept only numbers
+function validation(evt) {
+  var theEvent = evt || window.event;
+  var key = theEvent.keyCode || theEvent.which;
+  key = String.fromCharCode( key );
+  var regex = /[0-9]|\./;
+  if( !regex.test(key) ) {
+    theEvent.returnValue = false;
+    if(theEvent.preventDefault) theEvent.preventDefault();
+  }
+}
 
 </script>
 
@@ -328,9 +338,16 @@ $(document).ready(function(){
     }
     $marital_status = strtoupper($qry->member_marital_status);
     $dob = $qry->member_dob;
+    
+    # calculate user real age
+    $user_dob = new DateTime($dob);
+    $current_time   = new DateTime('today');
+    # calculate user real age
+    
+    
     $pob = strtoupper($qry->member_pob);
     
-    $age = "<div style='margin-left:25px;display:inline-block'>Age : " .$count_age."</div>";
+    $age = "<div style='margin-left:25px;display:inline-block'>Age : " .$user_dob->diff($current_time)->y."</div>";
     $h_address = explode('|',$qry->member_home_address);
     $home_address = strtoupper($h_address[0]);
     $home_address2 = strtoupper($h_address[1]);
@@ -430,8 +447,8 @@ $(document).ready(function(){
             $h_phone = explode("-",$qry->member_home_number);
             $m_phone = explode("-",$qry->member_mobile_number);
             
-            $home_phone ='<input id="home_phone_first" type="text" name="member_home_number" value="'.$h_phone[0].'" style="width:30px" maxlength="3"/> - <input type="text" id="home_phone_ext" name="member_home_number2" maxlength="8" value="'.$h_phone[1].'"/>';
-            $mobile_phone = '<input type="text" id="mobile_phone_first" name="member_mobile_number" value="'.$m_phone[0].'" style="width:30px" maxlength="3"/> - <input type="text" id="mobile_phone_ext" name="member_mobile_number2" maxlength="8" value="'.$m_phone[1].'"/>';
+            $home_phone ='<input id="home_phone_first" type="text" name="member_home_number" value="'.$h_phone[0].'" style="width:35px" minlength="2" maxlength="3" required onkeypress="validation(event)"/> - <input type="text" id="home_phone_ext" name="member_home_number2" minlength="6" maxlength="8" value="'.$h_phone[1].'" required onkeypress="validation(event)"/>';
+            $mobile_phone = '<input type="text" id="mobile_phone_first" name="member_mobile_number" value="'.$m_phone[0].'" style="width:35px" minlength="2" maxlength="3" required onkeypress="validation(event)"/> - <input type="text" id="mobile_phone_ext" name="member_mobile_number2" minlength="6" maxlength="8" value="'.$m_phone[1].'" required onkeypress="validation(event)"/>';
             $email ='<input type="text" name="member_email" value="'.strtoupper($qry->member_email).'" disabled style="width:250px"/>';
             if ($qry->studies_status == 0){
                 $applying = "checked";
@@ -573,7 +590,7 @@ $(document).ready(function(){
 <?php
     $get_dob = tep_query("SELECT * FROM personal_details WHERE member_id=$qry->member_id");
     while ($row = mysql_fetch_row($get_dob)) {
-            print_r($row);
+            $user_dob = $row['7'];
     }
 
 //    $current_ageQuery = "SELECT TIMESTAMPDIFF(YEAR, '10-04-1990', CURDATE()) AS age";
@@ -584,5 +601,6 @@ $(document).ready(function(){
 //    print_r($current_age);
     $ikfjasdklfja = "fklasjklfajf";
     $ikfjasdklfja2 = "fklasjklfajf";
-    $ikfjasdklfja3 = "fklasjklfajf";
+    
+
 ?>
