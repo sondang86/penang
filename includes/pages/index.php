@@ -447,8 +447,8 @@ $(document).ready(function(){
             $h_phone = explode("-",$qry->member_home_number);
             $m_phone = explode("-",$qry->member_mobile_number);
             
-            $home_phone ='<input id="home_phone_first" type="text" name="member_home_number" value="'.$h_phone[0].'" style="width:35px" minlength="2" maxlength="3" required onkeypress="validation(event)"/> - <input type="text" id="home_phone_ext" name="member_home_number2" minlength="6" maxlength="8" value="'.$h_phone[1].'" required onkeypress="validation(event)"/>';
-            $mobile_phone = '<input type="text" id="mobile_phone_first" name="member_mobile_number" value="'.$m_phone[0].'" style="width:35px" minlength="2" maxlength="3" required onkeypress="validation(event)"/> - <input type="text" id="mobile_phone_ext" name="member_mobile_number2" minlength="6" maxlength="8" value="'.$m_phone[1].'" required onkeypress="validation(event)"/>';
+            $home_phone ='<input id="home_phone_first" type="text" name="member_home_number" value="'.$h_phone[0].'" style="width:35px" minlength="2" maxlength="3" required onkeypress="validation(event)"/> - <input type="text" id="home_phone_ext" name="member_home_number2" value="'.$h_phone[1].'" required minlength="6" maxlength="8" onkeypress="validation(event)"/>';
+            $mobile_phone = '<input type="text" id="mobile_phone_first" name="member_mobile_number" value="'.$m_phone[0].'" style="width:35px" minlength="2" maxlength="3" required onkeypress="validation(event)"/> - <input type="text" id="mobile_phone_ext" name="member_mobile_number2" value="'.$m_phone[1].'" required minlength="6" maxlength="8" onkeypress="validation(event)"/>';
             $email ='<input type="text" name="member_email" value="'.strtoupper($qry->member_email).'" disabled style="width:250px"/>';
             if ($qry->studies_status == 0){
                 $applying = "checked";
@@ -476,6 +476,11 @@ $(document).ready(function(){
             
   }
   }else{
+    # calculate user real age
+    $user_dob = new DateTime($dob);
+    $current_time   = new DateTime('today');
+    # calculate user real age  
+      
     $name = '<input type="text" name="member_name" value="'.strtoupper($_POST['member_name']).'" style="width:300px" required/>';
     $ic = '<input type="text"  maxlength="6" style="width:45px" value="'.$ic1.'" disabled/> - <input type="text" name="member_ic2" maxlength="2" style="width:15px" value="'.$ic2.'" disabled/> - <input type="text" name="member_ic3" maxlength="4" style="width:30px" value="'.$ic3.'" disabled/>';
     $citizenship = '<label><input type="radio" name="member_citizenship" value="1" id="malaysia" required/>Malaysian</label>  <label><input type="radio" name="member_citizenship" value="0" id="non_malaysian" />Non- Malaysian</label> <label for="member_citizenship" class="error">Please select your gender</label>';
@@ -492,15 +497,15 @@ $(document).ready(function(){
                             <tr><td colspan="4"><input type="text" name="postal_address2" value="'.strtoupper($_POST['postal_address2']).'" style="width:345px;margin-left:-3px"/></td></tr>
                         <tr><td width="60px">Postcode: </td><td><input type="text"  name="postal_postcode" maxlength="5" style="width:100px" value="'.$_POST['postal_postcode'].'" required/></td><td>State:</td><td><select name="postal_state" required><option value="">-</option>'.arrToDDL(tep_state($_POST['postal_state'])).'</select></td</tr>
                         </table></div></td></tr>';
-    $home_phone ='<input type="text" id="home_phone_first" name="member_home_number" value="'.$_POST['member_home_number'].'" style="width:30px" maxlength="3"/> - <input type="text" id="home_phone_ext" name="member_home_number2" maxlength="8" value="'.$_POST['member_home_number2'].'"/>';
-    $mobile_phone = '<input type="text" id="mobile_phone_first" name="member_mobile_number" value="'.$_POST['member_mobile_number'].'" style="width:30px" maxlength="3"/> - <input type="text" id="mobile_phone_ext" name="member_mobile_number2" maxlength="8" value="'.$_POST['member_mobile_number2'].'"/>';
+    $home_phone ='<input type="text" id="home_phone_first" name="member_home_number" value="'.$_POST['member_home_number'].'" style="width:30px" minlength="2" maxlength="3" onkeypress="validation(event)"/> - <input type="text" id="home_phone_ext" name="member_home_number2" value="'.$_POST['member_home_number2'].'" minlength="6" maxlength="8" onkeypress="validation(event)"/>';
+    $mobile_phone = '<input type="text" id="mobile_phone_first" name="member_mobile_number" value="'.$_POST['member_mobile_number'].'" style="width:30px" minlength="2" maxlength="3" onkeypress="validation(event)"/> - <input type="text" id="mobile_phone_ext" name="member_mobile_number2" value="'.$_POST['member_mobile_number2'].'" minlength="6" maxlength="8" onkeypress="validation(event)"/>';
     $email ='<input type="text" name="member_email" value="'.strtoupper($_SESSION['member_email']).'" disabled style="width:250px"/>';
     $studies_status = ' <fieldset><tr><td colspan="2"><label><input type="radio" name="studies_status" style="margin-left:-3px" value="0"  onclick="studyStatus(this.value);" required/>Applying to enter university / college for undergraduate program</label></td></tr>
                         <tr><td colspan="2"><label><input type="radio" name="studies_status" id="pursuing_studies" style="margin-left:-3px" value="1"  onclick="studyStatus(this.value);"/>Currently pursuing undergraduate studies</label></td></tr>
                         <tr><td><div id="academic" style="display:none"><table><tr id="academic_year"><td width="180px">Current Academic Year</td><td><select name="study_year">'.ddlReplace(arrToDDL(tep_academic_year()),$_POST['study_year']).'</select></td></tr>   
                         <tr id="academic_semester"><td>Current Semester</td><td><select name="study_semester">'.ddlReplace(arrToDDL(tep_academic_semester()),$_POST['study_semester']).'</select></td></tr></table></div></td></tr><tr><td><label for="studies_status" class="error">Please select your gender</label></td></tr></fieldset>';
 //    $age = '<div id="age">Age : '.$count_age.'</div>';
-    $age = 'Age : <div id="age" style="display:inline-block"></div>';
+    $age = 'Age : <div id="age" style="display:inline-block">' .$user_dob->diff($current_time)->y.'</div>';
     $btn = '<input type="submit" name="submit" id="form_submission" value="Save" style="padding:3px;width:100px"/> <input type="button" value="Next" onclick="location.href=\'index.php?pages=academic_details\'" style="padding:3px;width:100px"/>';
   }
 ?>
@@ -586,21 +591,3 @@ $(document).ready(function(){
     </div>
     </form>
 </div>
-
-<?php
-    $get_dob = tep_query("SELECT * FROM personal_details WHERE member_id=$qry->member_id");
-    while ($row = mysql_fetch_row($get_dob)) {
-            $user_dob = $row['7'];
-    }
-
-//    $current_ageQuery = "SELECT TIMESTAMPDIFF(YEAR, '10-04-1990', CURDATE()) AS age";
-//    $current_age = tep_query($current_ageQuery);
-//    while ($row = mysql_fetch_row($current_age)) {
-//        print_r($row);
-//}
-//    print_r($current_age);
-    $ikfjasdklfja = "fklasjklfajf";
-    $ikfjasdklfja2 = "fklasjklfajf";
-    
-
-?>

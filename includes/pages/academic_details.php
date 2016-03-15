@@ -669,7 +669,7 @@ $("#qualification_grade").validate({
                     $examination_subject = explode('|',$qry->examination_subject);
                     $examination_grades = explode("|",$qry->examination_grades);
                     $qualification_sub = '<input type="text" name="qualification_sub_1" value="'.strtoupper($examination_subject[0]).'" style="width:440px" required/>';
-                    $qualification_grade = '<input type="number" id="qualification_grade" name="qualification_grade_1" pattern="[3-4]" value="'.strtoupper($examination_grades[0]).'" min="3" max="4" step="0.01" required title="Your CGPA cannot exceed 4.00. Thank you."/>';
+                    $qualification_grade = '<input type="number" id="qualification_grade" name="qualification_grade_1" pattern="[3-4]" value="'.strtoupper($examination_grades[0]).'" min="3" max="4" step="0.01" required title="Your CGPA cannot either exceed 4.00 nor below 3.00 . Thank you."/>';
                     $qualification_year = '<td id="year_row" rowspan="'.$sub.'" valign="top" width="100px"><select name="stpm_year" style="width:100%" required><option value="">-</option>'.ddlReplace(arrToDDL(tep_year()),$qry->examination_year).'</select></td>';
 
             $qualification_cgpa = '<input type="text" name="qualification_cgpa" value="'.$qry->examination_cgpa.'" required/>';
@@ -700,7 +700,7 @@ $("#qualification_grade").validate({
         $academic_qualification = '<td rowspan="5" valign="top" id="stpm_row" required><select name="academic_qualification" id="academic_qualification" onchange="OthersQualification(this.value);"><option value="">-</option>'.ddlReplace(arrToDDL(tep_qualification()),$_POST['academic_qualification']).'</select>  <div id="others_qualification" style="display:none;margin:5px 0">Please specify : <input type="text" id="input_others" name="others_qualification" style="width:99px"/></div></td>';
         $qualification_year = '<td id="year_row" rowspan="5" valign="top"><select name="stpm_year" style="width:100%" required><option value="">-</option>'.ddlReplace(arrToDDL(tep_year()),$_POST['stpm_year']).'</select></td>';
         $qualification_sub = '<input type="text" name="qualification_sub_1" value="'.strtoupper($_POST['qualification_sub_1']).'" style="width:465px" required/>';
-        $qualification_grade = '<input type="number" name="qualification_grade_1" value="'.strtoupper($_POST['qualification_grade_1']).'" min="3" max="4" step="0.01" required/>';
+        $qualification_grade = '<input type="number" name="qualification_grade_1" id="qualification_grade" value="'.strtoupper($_POST['qualification_grade_1']).'" min="3" max="4" step="0.01" required title="Your CGPA cannot either exceed 4.00 nor below 3.00 . Thank you."/>';
         $qualification_cgpa = '<input type="text" name="qualification_cgpa" value="'.$_POST['qualification_cgpa'].'" required/>';
         $college_name = '<input type="text"  name="college_name" style="width:100%" value="'.strtoupper($_POST['college_1']).'" required/>';
         $college_course = 'BACHELOR\'S DEGREE IN <input type="text"  name="college_course" style="width:120px" value="'.strtoupper($_POST['course_1']).'" required/>';
@@ -778,7 +778,7 @@ $("#qualification_grade").validate({
                                 $examination_row ='
                                          <tr id="erow_2">
                                                 <td><input type="text" name="qualification_sub_2" value="'.strtoupper($examination_subject[$x]).'" style="width:440px"/></td>
-                                                <td><input type="number" name="qualification_grade_2" value="'.strtoupper($examination_grades[$x]).'" min="3" max="4" step="0.01"/></td>
+                                                <td><input type="number" name="qualification_grade_2" id="qualification_grade" value="'.strtoupper($examination_grades[$x]).'" min="3" max="4" step="0.01" title="Your CGPA cannot either exceed 4.00 nor below 3.00 . Thank you."/></td>
                                          </tr>
                                 </tr>
                                  ';
