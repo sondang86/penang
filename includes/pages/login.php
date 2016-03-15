@@ -69,26 +69,26 @@ if(isset($_POST['resend_email'])){
     //Localhost send mail method
     $headers = 'From: info@penangfuturefoundation.my' . "\r\n";
     $content_title = "Penang Future Foundation Account Verification";
-    $template = "Hi, <br/><br/>Thank you for your registration in Penang Future Foundation<br><br>
-        Please click on the link below to verify your account<br>
-        <a href=\"http://localhost/penangfuture/" .$_SESSION['verification_link'] ."\">http://localhost/penangfuture/".$_SESSION['verification_link']."</a><br><br>
-            ========= User Account Log ========= <br>
-            ".$_SESSION['member_created']."             Account Registration <br><br>
-        --<br><br/>
-                                                                    Best regards,<br/>
-        Penang Future Foundation\n\n\n<br/>";    
-
-    PHPMail($_SESSION['member_email'],$template,$content_title );
-    
-    //Production send mail method
-//    $template = "Hi, \r\n Thank you for your registration in Penang Future Foundation \r\n "
-//                                        . "Please click on the link below to verify your account \r\n http://form.penangfuturefoundation.my/index.php?pages=register&id=".$insertId."&code=".$verificationCode." \r\n \r\n
-//                                            ========= User Account Log ========= \r\n
-//                                            "
-//                                            .$_SESSION['member_created']."             Account Registration \r\n \r\n
+//    $template = "Hi, <br/><br/>Thank you for your registration in Penang Future Foundation<br><br>
+//        Please click on the link below to verify your account<br>
+//        <a href=\"http://localhost/penangfuture/" .$_SESSION['verification_link'] ."\">http://localhost/penangfuture/".$_SESSION['verification_link']."</a><br><br>
+//            ========= User Account Log ========= <br>
+//            ".$_SESSION['member_created']."             Account Registration <br><br>
+//        --<br><br/>
+//                                                                    Best regards,<br/>
+//        Penang Future Foundation\n\n\n<br/>";    
 //
-//				-- \r\n \r\n                                                                                          Best regards,\r\n Penang Future Foundation \r\n \r\n \r\n \r\n";
-//    mail($account_registration->member_email, $content_title, $template, $headers);
+//    PHPMail($_SESSION['member_email'],$template,$content_title );
+    
+//    Production send mail method
+    $template = "Hi, \r\n Thank you for your registration in Penang Future Foundation \r\n "
+                                        . "Please click on the link below to verify your account \r\n http://form.penangfuturefoundation.my/".$_SESSION['verification_link']." \r\n \r\n
+                                            ========= User Account Log ========= \r\n
+                                            "
+                                            .$_SESSION['member_created']."             Account Registration \r\n \r\n
+
+				-- \r\n \r\n                                                                                          Best regards,\r\n Penang Future Foundation \r\n \r\n \r\n \r\n";
+    mail($_SESSION['member_email'], $content_title, $template, $headers);
     
     //Remove sessions to avoid security issues
     unset($_SESSION['member_created']);
