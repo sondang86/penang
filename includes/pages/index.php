@@ -64,6 +64,61 @@ function validation(evt) {
   }
 }
 
+$(document).ready(function(){
+    
+    $('#non_malaysian').click(function() {
+        alert('We\'re sorry, Penang Future Foundation Scholarship is open for Malaysia Citizen only.');
+        
+});
+
+    $('#same_address').click(function(){
+      if($("#same_address").is(':checked'))
+          $("#postal_address").hide();
+      else
+          $("#postal_address").show();
+    });
+    
+    
+    /**Age calculator + Datepicker **/
+    
+      $( "#dateOfBirth" ).datepicker({
+        changeMonth: true,
+        changeYear: true,
+        dateFormat: 'dd-mm-yy',
+
+        onSelect: function () {             
+             var DateOfBirth = $("#dateOfBirth").val();
+             jQuery.ajax({
+                type: "POST",
+                url: "includes/pages/ageCalculator.php",
+                data: { dob: DateOfBirth },
+                     success: function(responseData) {
+                         $("#age").empty().append(responseData);
+                         if (responseData > 26){
+                             alert("fjaslkfjkalf");
+                         }
+                     },
+                     error: function() {
+                         alert("Error.");
+                     }
+             });        
+        }
+
+      });
+      
+    /**Age calculator**/
+    
+    /*Check applicant age before process*/
+    $("#form_submission").click(function(e){
+        if($("#applicant-age").text() > 25 ){
+            alert("We accept the candidate who age smaller than 25. Thank you");
+            e.preventDefault();
+        }
+    });
+    
+});
+
+
 </script>
 
 <?php
@@ -151,59 +206,7 @@ function validation(evt) {
      $("#academic").hide();
 }
 
-$(document).ready(function(){
-    
-    $('#non_malaysian').click(function() {
-        alert('We\'re sorry, Penang Future Foundation Scholarship is open for Malaysia Citizen only.');
-        
-});
 
-    $('#same_address').click(function(){
-      if($("#same_address").is(':checked'))
-          $("#postal_address").hide();
-      else
-          $("#postal_address").show();
-    });
-    
-    
-    /**Age calculator + Datepicker **/
-    
-      $( "#dateOfBirth" ).datepicker({
-        changeMonth: true,
-        changeYear: true,
-        dateFormat: 'dd-mm-yy',
-
-        onSelect: function () {             
-             var DateOfBirth = $("#dateOfBirth").val();
-             jQuery.ajax({
-                type: "POST",
-                url: "includes/pages/ageCalculator.php",
-                data: { dob: DateOfBirth },
-                     success: function(responseData) {
-                         $("#age").empty().append(responseData);
-                         if (responseData > 26){
-                             alert("fjaslkfjkalf");
-                         }
-                     },
-                     error: function() {
-                         alert("Error.");
-                     }
-             });        
-        }
-
-      });
-      
-    /**Age calculator**/
-    
-    /*Check applicant age before process*/
-    $("#form_submission").click(function(e){
-        if($("#applicant-age").text() > 25 ){
-            alert("We accept the candidate who age smaller than 25. Thank you");
-            e.preventDefault();
-        }
-    });
-    
-});
 
 </script>
 
@@ -323,6 +326,13 @@ $(document).ready(function(){
           $qry = tep_fetch_object(tep_query("SELECT * FROM ".PERSONAL." p, ".MEMBER." m WHERE p.member_id = m.member_id AND (m.member_id = '".$_SESSION['member_id']."' OR m.member_id = '".$_GET['id']."')"));
 
     }
+    
+    $dob = $qry->member_dob;
+    
+    # calculate user real age
+    $user_dob = new DateTime($dob);
+    $current_time   = new DateTime('today');
+    # calculate user real age
 
   if ($editable =="0" || $editable =="admin" || $editable=="view"){
     $name = strtoupper($qry->member_name);
@@ -338,17 +348,17 @@ $(document).ready(function(){
             break;
     }
     $marital_status = strtoupper($qry->member_marital_status);
-    $dob = $qry->member_dob;
-    
-    # calculate user real age
-    $user_dob = new DateTime($dob);
-    $current_time   = new DateTime('today');
-    # calculate user real age
+//    $dob = $qry->member_dob;
+//    
+//    # calculate user real age
+//    $user_dob = new DateTime($dob);
+//    $current_time   = new DateTime('today');
+//    # calculate user real age
     
     
     $pob = strtoupper($qry->member_pob);
     
-    $age = "<div style='margin-left:25px;display:inline-block;width:50px;'>Age : " .$user_dob->diff($current_time)->y."</div>";
+    $age = "<div style='margin-left:25px;display:inline-block;width:60px;' id='age'>Age : " .$user_dob->diff($current_time)->y."</div>";
     $h_address = explode('|',$qry->member_home_address);
     $home_address = strtoupper($h_address[0]);
     $home_address2 = strtoupper($h_address[1]);
@@ -537,7 +547,8 @@ $(document).ready(function(){
             </tr>
             <tr>
                 <td>Date of Birth (DD-MM-YYYY)</td><td><input type="text" id="dateOfBirth" name="member_dob" required value="<?php echo $qry->member_dob ?>"?>    <?php echo $age?></td>
-            </tr>
+            </tr>           
+            
             <tr>
                 <td>Place of Birth</td><td><?=$pob?></td>
             </tr>

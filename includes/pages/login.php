@@ -82,9 +82,7 @@ if(isset($_POST['resend_email'])){
     
 //    Production send mail method
     $template = "Hi, \r\n Thank you for your registration in Penang Future Foundation \r\n "
-                . "Please click on the link below to verify your account \r\n http://form.penangfuturefoundation.my/".$_SESSION['verification_link']." \r\n \r\n"
-                . "========= User Account Log ========= \r\n"
-                .$_SESSION['member_created']."             Account Registration \r\n \r\n -- \r\n \r\n"
+                . "Please click on the link below to verify your account \r\n http://form.penangfuturefoundation.my/".$_SESSION['verification_link']." \r\n \r\n". "========= User Account Log ========= \r\n".$_SESSION['member_created']."             Account Registration \r\n \r\n -- \r\n \r\n"
                 . "                                                              Best regards,\r\n Penang Future Foundation \r\n \r\n \r\n \r\n";
     mail($_SESSION['member_email'], $content_title, $template, $headers);
     
