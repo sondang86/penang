@@ -82,12 +82,10 @@ if(isset($_POST['resend_email'])){
     
 //    Production send mail method
     $template = "Hi, \r\n Thank you for your registration in Penang Future Foundation \r\n "
-                                        . "Please click on the link below to verify your account \r\n http://form.penangfuturefoundation.my/".$_SESSION['verification_link']." \r\n \r\n
-                                            ========= User Account Log ========= \r\n
-                                            "
-                                            .$_SESSION['member_created']."             Account Registration \r\n \r\n
-
-				-- \r\n \r\n                                                                                          Best regards,\r\n Penang Future Foundation \r\n \r\n \r\n \r\n";
+                . "Please click on the link below to verify your account \r\n http://form.penangfuturefoundation.my/".$_SESSION['verification_link']." \r\n \r\n"
+                . "========= User Account Log ========= \r\n"
+                .$_SESSION['member_created']."             Account Registration \r\n \r\n -- \r\n \r\n"
+                . "                                                              Best regards,\r\n Penang Future Foundation \r\n \r\n \r\n \r\n";
     mail($_SESSION['member_email'], $content_title, $template, $headers);
     
     //Remove sessions to avoid security issues
@@ -159,8 +157,8 @@ $(document).ready(function(){
         <table border="0" cellpadding="5" cellspacing="0" style="margin: 0 auto; border: 1px solid #e5e5e5; background-color: #F7F6F1; font-size: 14px; line-height: 25px; padding: 15px 20px 20px 20px; box-shadow: 0 0 15px 5px rgba(207, 207, 207, 0.8)">
             <tr><th align="center"><img src="./images/logo.png" /></th></tr>
             <tr><td align="center"><h3>Login</h3></td></tr>
-            <tr><td><input type="text" name="ic" id="ic" value="<?=$_POST["ic"]?>" placeholder="NRIC No" style="width:318px; height: 35px; padding: 1px 6px; font-size: 14px;" /></td></tr>
-            <tr><td><input type="password" name="password" placeholder="Password" style="width:318px; height: 35px; padding: 1px 6px; font-size: 14px;" /></td></tr>
+            <tr><td><input type="text" name="ic" id="ic" value="<?=$_POST["ic"]?>" placeholder="NRIC No" style="width:318px; height: 35px; padding: 1px 6px; font-size: 14px;" required /></td></tr>
+            <tr><td><input type="password" name="password" placeholder="Password" style="width:318px; height: 35px; padding: 1px 6px; font-size: 14px;" required/></td></tr>
             <tr><td>
                     <div style="color: #DB1111;margin-top:-5px"><?=$errormessage?></div>
                     <input type="submit" name="submit" value="Sign in" class="btn btn-blue">

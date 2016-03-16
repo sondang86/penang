@@ -97,9 +97,9 @@ function validation(evt) {
               echo '<script>alert("Please select a state for your home address!")</script>';
         }
         
-        if ($_GET['postal']=="blank"){
-              echo '<script>alert("Please do not leave your postal address blank!")</script>';
-        }
+//        if ($_GET['postal']=="blank"){
+//              echo '<script>alert("Please do not leave your postal address blank!")</script>';
+//        }
       
         if ($_SESSION['member_ic']!=""){
             $icno = $_SESSION['member_ic'];
@@ -257,7 +257,8 @@ $(document).ready(function(){
     if ($_POST['same_address'] ==1){
         $postal_address = $home_address;
     }else{
-        $postal_address =  tep_input($_POST['postal_address'])."|".tep_input($_POST['postal_address2'])."|".$_POST['postal_postcode']."|".$_POST['postal_state'];
+//        $postal_address =  tep_input($_POST['postal_address'])."|".tep_input($_POST['postal_address2'])."|".$_POST['postal_postcode']."|".$_POST['postal_state'];
+        $postal_address = $home_address;
     }
     
     $home_phone = $_POST['member_home_number']."-".$_POST['member_home_number2'];
@@ -347,7 +348,7 @@ $(document).ready(function(){
     
     $pob = strtoupper($qry->member_pob);
     
-    $age = "<div style='margin-left:25px;display:inline-block'>Age : " .$user_dob->diff($current_time)->y."</div>";
+    $age = "<div style='margin-left:25px;display:inline-block;width:50px;'>Age : " .$user_dob->diff($current_time)->y."</div>";
     $h_address = explode('|',$qry->member_home_address);
     $home_address = strtoupper($h_address[0]);
     $home_address2 = strtoupper($h_address[1]);
@@ -505,7 +506,7 @@ $(document).ready(function(){
                         <tr><td><div id="academic" style="display:none"><table><tr id="academic_year"><td width="180px">Current Academic Year</td><td><select name="study_year">'.ddlReplace(arrToDDL(tep_academic_year()),$_POST['study_year']).'</select></td></tr>   
                         <tr id="academic_semester"><td>Current Semester</td><td><select name="study_semester">'.ddlReplace(arrToDDL(tep_academic_semester()),$_POST['study_semester']).'</select></td></tr></table></div></td></tr><tr><td><label for="studies_status" class="error">Please select your gender</label></td></tr></fieldset>';
 //    $age = '<div id="age">Age : '.$count_age.'</div>';
-    $age = 'Age : <div id="age" style="display:inline-block">' .$user_dob->diff($current_time)->y.'</div>';
+    $age = '<div id="age" style="display:inline-block; width:50px;">' .$user_dob->diff($current_time)->y.'</div>';
     $btn = '<input type="submit" name="submit" id="form_submission" value="Save" style="padding:3px;width:100px"/> <input type="button" value="Next" onclick="location.href=\'index.php?pages=academic_details\'" style="padding:3px;width:100px"/>';
   }
 ?>
@@ -535,11 +536,7 @@ $(document).ready(function(){
                 <td>Marital Status</td><td><fieldset><?=$marital_status?></fieldset></td>
             </tr>
             <tr>
-                <?php if ($editable == 0) {?>
-                <td>Date of Birth</td><td><?php echo $dob?>    <?php echo $age?></td>
-                <?php } else {?>
-                <td>Date of Birth (DD-MM-YYYY)</td><td><input type="text" id="dateOfBirth" name="member_dob" value="<?php echo $qry->member_dob ?>"?>    <?php echo $age?></td>
-                <?php }?>                
+                <td>Date of Birth (DD-MM-YYYY)</td><td><input type="text" id="dateOfBirth" name="member_dob" required value="<?php echo $qry->member_dob ?>"?>    <?php echo $age?></td>
             </tr>
             <tr>
                 <td>Place of Birth</td><td><?=$pob?></td>
@@ -555,14 +552,14 @@ $(document).ready(function(){
                     </table>
                 </td>
             </tr>
-            <tr>
+<!--            <tr>
                 <td valign="top">Postal Address</td>
                 <td>
                     <table style="margin-top:-17px;margin-bottom:-20px;">
                         <?=$postal_address?>
                     </table>
                 </td>
-            </tr>
+            </tr>-->
             <tr>
                 <td>Phone Number</td>
                 <td>
