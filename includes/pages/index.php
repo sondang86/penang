@@ -278,21 +278,22 @@ $(document).ready(function(){
     
        if($_POST['member_citizenship']=="0"){
             redirect("index.php?citizen=disqualified");
+            
         }else{
         tep_query("UPDATE ".PERSONAL." SET  member_name = '".tep_input($_POST['member_name'])."', 
-                                                                         member_ic = '".$member_ic."', 
-                                                                         member_citizenship =  '".$_POST['member_citizenship']."',
-                                                                         member_sex = '".$_POST['member_sex']."',
-                                                                         member_marital_status = '".$marital_status."',
-                                                                         member_dob ='".$_POST["member_dob"]."',
-                                                                         member_pob = '".$_POST["member_pob"]."',
-                                                                         member_home_address =  '".$home_address."',
-                                                                         member_postal_address =  '".$postal_address."',
-                                                                         member_home_number = '".$home_phone."',
-                                                                         member_mobile_number = '".$mobile_phone."' ,
-                                                                         studies_status = '".tep_input($_POST['studies_status'])."',
-                                                                         current_year = '".$_POST['study_year']."',
-                                                                         current_semester = '".$_POST['study_semester']."' WHERE member_id = '".$id."'");
+                                            member_ic = '".$member_ic."', 
+                                            member_citizenship =  '".$_POST['member_citizenship']."',
+                                            member_sex = '".$_POST['member_sex']."',
+                                            member_marital_status = '".$marital_status."',
+                                            member_dob ='".$_POST["member_dob"]."',
+                                            member_pob = '".$_POST["member_pob"]."',
+                                            member_home_address =  '".$home_address."',
+                                            member_postal_address =  '".$postal_address."',
+                                            member_home_number = '".$home_phone."',
+                                            member_mobile_number = '".$mobile_phone."' ,
+                                            studies_status = '".tep_input($_POST['studies_status'])."',
+                                            current_year = '".$_POST['study_year']."',
+                                            current_semester = '".$_POST['study_semester']."' WHERE member_id = '".$id."'");
         
                         if ($_GET['action']=="edit" && $_SESSION['user_id']!=""){
                              tep_query("INSERT INTO ".TEMP."(member_id,action,temp_group,temp_createdby,temp_created) 
@@ -311,7 +312,7 @@ $(document).ready(function(){
         }else{
             tep_query("INSERT INTO ".PERSONAL."(member_id,member_name,member_ic,member_citizenship,member_sex,member_marital_status,member_dob,member_pob,
                                                                                    member_home_address,member_postal_address,member_home_number,member_mobile_number,studies_status,current_year,current_semester) 
-                                 VALUES('".$_SESSION['member_id']."', '".tep_input($_POST['member_name'])."', '".$member_ic."','".$_POST['member_citizenship']."', '".$_POST['member_sex']."','".$marital_status."','".date_htmltomysql($member_dob)."','".$_POST["member_pob"]."',
+                                 VALUES('".$_SESSION['member_id']."', '".tep_input($_POST['member_name'])."', '".$member_ic."','".$_POST['member_citizenship']."', '".$_POST['member_sex']."','".$marital_status."','".$_POST["member_dob"]."','".$_POST["member_pob"]."',
                                     '".$home_address."', '".$postal_address."', '".$home_phone."', '".$mobile_phone."' ,'".tep_input($_POST['studies_status'])."',  '".$_POST['study_year']."','".$_POST['study_semester']."')");
 
             tep_query("UPDATE ".MEMBER." SET personal = 1 WHERE member_id = '".$_SESSION['member_id']."'");
@@ -546,7 +547,14 @@ $(document).ready(function(){
                 <td>Marital Status</td><td><fieldset><?=$marital_status?></fieldset></td>
             </tr>
             <tr>
+                <?php
+                print_r($qry->member_dob);
+                ?>
+                <?php if($editable == 0 && !empty($qry->member_dob)){?>
+                <td>Date of Birth (DD-MM-YYYY)</td><td><input type="text" id="dateOfBirth" name="member_dob" required disabled value="<?php echo $qry->member_dob ?>"?>    <?php echo $age?></td>
+                <?php } else {?>
                 <td>Date of Birth (DD-MM-YYYY)</td><td><input type="text" id="dateOfBirth" name="member_dob" required value="<?php echo $qry->member_dob ?>"?>    <?php echo $age?></td>
+                <?php } ?>
             </tr>           
             
             <tr>

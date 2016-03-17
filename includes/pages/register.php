@@ -58,26 +58,42 @@ if($_POST['submit']!=""){
                                $query = tep_query("SELECT * FROM account_registration WHERE member_id=$insertId");
                                 while ($row = mysql_fetch_array($query)) {
                                 $account_info = $row;
-                                }                               
-                               
-//                               Sending message to user
-                                $email = trim($_POST['email']);  
-                                $content_title = "Penang Future Foundation Account Verification";
-                                $template = "Hi, \r\n Thank you for your registration in Penang Future Foundation \r\n "
-                                        . "Please click on the link below to verify your account \r\n http://form.penangfuturefoundation.my/index.php?pages=register&id=".$insertId."&code=".$verificationCode." \r\n \r\n
-                                            ========= User Account Log ========= \r\n
-                                            "
-                                            .$account_info['member_created']."             Account Registration \r\n \r\n
-
-				-- \r\n \r\n                                                                                          Best regards,\r\n Penang Future Foundation \r\n \r\n \r\n \r\n";
+                                } 
+                                $query_member = tep_query("SELECT * FROM member WHERE member_id=$insertId");
+                                while ($row = mysql_fetch_array($query_member)) {
+                                $member_info = $row;
+                                }
                                 
-				
-//				send_mail($email, $template, $content_title);
-//                                PHPMail($email,$template,$content_title );
-
-                                $headers = 'From: info@penangfuturefoundation.my' . "\r\n";
-
-                                mail($email, $content_title, $template, $headers);
+//                               Sending message to user production
+//                                $email = trim($_POST['email']);  
+//                                $content_title = "Penang Future Foundation Account Verification";
+//                                $template = "Hi, \r\n Thank you for your registration in Penang Future Foundation \r\n "
+//                                            . "Please click on the link below to verify your account \r\n http://form.penangfuturefoundation.my/".$verication_link." \r\n \r\n"
+//                                            . "========= User Account Log ========= \r\n".$account_info['member_created']."             Account Registration \r\n "
+//                                            .$account_info['member_created']."             Form Submission \r\n \r\n User NIRC: ". $member_info['member_ic'] ."  \r\n \r\n -- \r\n \r\n"
+//                                            . "Best regards,\r\n Penang Future Foundation \r\n \r\n \r\n \r\n";
+//                                
+//                                $headers = 'From: info@penangfuturefoundation.my' . "\r\n";
+//
+//                                mail($email, $content_title, $template, $headers);
+                                
+                                
+                                //Localhost send mail method
+                                    $email = trim($_POST['email']);
+                                    $headers = 'From: info@penangfuturefoundation.my' . "\r\n";
+                                    $content_title = "Penang Future Foundation Account Verification";
+                                    $template = "Hi, <br/><br/>Thank you for your registration in Penang Future Foundation<br><br>
+                                        Please click on the link below to verify your account<br>
+                                        <a href=\"http://localhost/penangfuture/" .$verication_link ."\">http://localhost/penangfuture/".$verication_link."</a><br><br>
+                                            ========= User Account Log ========= <br>
+                                           ".$account_info['member_created']."             Account Registration <br><br>"
+                                            .$account_info['member_created']."             Form Submission <br><br> User NIRC: ". $member_info['member_ic'] ." <br><br>    
+                                        --<br><br/>
+                                                                                                    Best regards,<br/>
+                                        Penang Future Foundation\n\n\n<br/>";    
+                                
+                                   
+                                   PHPMail($email,$template,$content_title );    
 
                              redirect('index.php?pages=login&register=verify');
                               }else{

@@ -30,12 +30,19 @@ if($_POST['submit']!=""){
 //            $query = tep_query("SELECT * FROM ".MEMBER." WHERE member_status='1' AND member_ic='".$_POST['ic']."'");
             $query = tep_query("SELECT * FROM ".MEMBER." WHERE member_ic='".$_POST['ic']."'");
             $info = tep_fetch_object($query);
-            $account_query = tep_query("SELECT * FROM account_registration WHERE member_id=$info->member_id");            
-            $account_registration = tep_fetch_object($account_query);
-//            print_r($account_registration);die;
             
-            if(tep_num_rows($query)>0 && $info->member_status == 1){ // User email verified
-                
+            //Wrong Password
+            if(tep_num_rows($query) !== 0){
+                $account_query = tep_query("SELECT * FROM account_registration WHERE member_id=$info->member_id");            
+                $account_registration = tep_fetch_object($account_query);                
+            } else {
+                $errormessage="Invalid user.";
+            }
+
+
+            
+            if(tep_num_rows($query)>0 && $info->member_status == 1){ 
+                // User email verified                 
                 if (md5($_POST['password'])==$info->member_password){
                     setcookie("member_id", md5("tmstms".$info->member_id ), strtotime(date("23:59:59")));
                     $_SESSION['member_id'] = $info->member_id;
@@ -46,11 +53,11 @@ if($_POST['submit']!=""){
                     
                         redirect('index.php?pages=index');
                     
-                }else{
-                $errormessage="Invalid user.";
+                }else{ //correct Id but wrong password
+                    $errormessage="Invalid user.";
                 }
-            } elseif (tep_num_rows($query)>0 && $info->member_status == 0 && md5($_POST['password'])==$info->member_password) { //User account not yet activate
-                    
+            } elseif (tep_num_rows($query)>0 && $info->member_status == 0 && md5($_POST['password'])==$info->member_password) { 
+                    //User account not yet activate
                     $errormessage="<div class='blink_me'>Your account has not yet activate. Click <form method='post'><input type='submit' name='resend_email' value='here'> to resend the verification link</div></form>";
                     $_SESSION['member_email'] = $info->member_email;
                     $_SESSION['member_created'] = $info->member_created;
@@ -69,22 +76,22 @@ if(isset($_POST['resend_email'])){
     //Localhost send mail method
     $headers = 'From: info@penangfuturefoundation.my' . "\r\n";
     $content_title = "Penang Future Foundation Account Verification";
-//    $template = "Hi, <br/><br/>Thank you for your registration in Penang Future Foundation<br><br>
-//        Please click on the link below to verify your account<br>
-//        <a href=\"http://localhost/penangfuture/" .$_SESSION['verification_link'] ."\">http://localhost/penangfuture/".$_SESSION['verification_link']."</a><br><br>
-//            ========= User Account Log ========= <br>
-//            ".$_SESSION['member_created']."             Account Registration <br><br>
-//        --<br><br/>
-//                                                                    Best regards,<br/>
-//        Penang Future Foundation\n\n\n<br/>";    
-//
-//    PHPMail($_SESSION['member_email'],$template,$content_title );
+    $template = "Hi, <br/><br/>Thank you for your registration in Penang Future Foundation<br><br>
+        Please click on the link below to verify your account<br>
+        <a href=\"http://localhost/penangfuture/" .$_SESSION['verification_link'] ."\">http://localhost/penangfuture/".$_SESSION['verification_link']."</a><br><br>
+            ========= User Account Log ========= <br>
+            ".$_SESSION['member_created']."             Account Registration <br><br>
+        --<br><br/>
+                                                                    Best regards,<br/>
+        Penang Future Foundation\n\n\n<br/>";    
+
+    PHPMail($_SESSION['member_email'],$template,$content_title );
     
 //    Production send mail method
-    $template = "Hi, \r\n Thank you for your registration in Penang Future Foundation \r\n "
-                . "Please click on the link below to verify your account \r\n http://form.penangfuturefoundation.my/".$_SESSION['verification_link']." \r\n \r\n". "========= User Account Log ========= \r\n".$_SESSION['member_created']."             Account Registration \r\n \r\n -- \r\n \r\n"
-                . "                                                              Best regards,\r\n Penang Future Foundation \r\n \r\n \r\n \r\n";
-    mail($_SESSION['member_email'], $content_title, $template, $headers);
+//    $template = "Hi, \r\n Thank you for your registration in Penang Future Foundation \r\n "
+//                . "Please click on the link below to verify your account \r\n http://form.penangfuturefoundation.my/".$_SESSION['verification_link']." \r\n \r\n". "========= User Account Log ========= \r\n".$_SESSION['member_created']."             Account Registration \r\n \r\n -- \r\n \r\n"
+//                . "Best regards,\r\n Penang Future Foundation \r\n \r\n \r\n \r\n";
+//    mail($_SESSION['member_email'], $content_title, $template, $headers);
     
     //Remove sessions to avoid security issues
     unset($_SESSION['member_created']);
