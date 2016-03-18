@@ -551,7 +551,7 @@ $(document).ready(function(){
                 print_r($qry->member_dob);
                 ?>
                 <?php if($editable == 0 && !empty($qry->member_dob)){?>
-                <td>Date of Birth (DD-MM-YYYY)</td><td><input type="text" id="dateOfBirth" name="member_dob" required disabled value="<?php echo $qry->member_dob ?>"?>    <?php echo $age?></td>
+                <td>Date of Birth (DD-MM-YYYY)</td><td><?php echo $qry->member_dob ?>   <?php echo $age?></td>
                 <?php } else {?>
                 <td>Date of Birth (DD-MM-YYYY)</td><td><input type="text" id="dateOfBirth" name="member_dob" required value="<?php echo $qry->member_dob ?>"?>    <?php echo $age?></td>
                 <?php } ?>

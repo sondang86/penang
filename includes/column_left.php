@@ -30,12 +30,19 @@
             $register_year = substr($mcheck->member_created, 0, 4);
             
             if ($register_year == "2016") {
-                $register_form = '';
+                if($_GET['id']!=""){
+                    $register_form = '<li><i class="fa fa-print"></i><a href="index.php?pages=print_preview&id='.$_GET['id'].'" class="'.$print.'" target="_blank">Print 2016 form</a></li>';
+                } else {
+                    $register_form = '<li><i class="fa fa-print"></i><a href="index.php?pages=print_preview" class="'.$print.'" target="_blank">Print 2016 form</a></li>';
+                }
+                
             } else {
                 if($_GET['id']!=""){
-                    $register_form = '<li><i class="fa fa-print"></i><a href="index.php?pages=print_preview&id='.$_GET['id'].'" class="'.$print.'" target="_blank">Print 2015 form</a></li>';
+                    $register_form = '<li><i class="fa fa-print"></i><a href="index.php?pages=print_preview&id='.$_GET['id'].'" class="'.$print.'" target="_blank">Print 2015 form</a></li>'
+                                    .'<li><i class="fa fa-print"></i><a href="index.php?pages=print_preview&id='.$_GET['id'].'" class="'.$print.'" target="_blank">Print 2016 form</a></li>';
                 } else {
-                    $register_form = '<li><i class="fa fa-print"></i><a href="index.php?pages=print_preview" class="'.$print.'" target="_blank">Print 2015 form</a></li>';    
+                    $register_form = '<li><i class="fa fa-print"></i><a href="index.php?pages=print_preview" class="'.$print.'" target="_blank">Print 2015 form</a></li>'
+                                    .'<li><i class="fa fa-print"></i><a href="index.php?pages=print_preview" class="'.$print.'" target="_blank">Print 2016 form</a></li>';    
                 }
             }
             

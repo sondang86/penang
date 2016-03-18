@@ -166,7 +166,7 @@ tep_query("UPDATE ".MEMBER." SET complete = 1, fund_status = 'SUBMITTED', submis
     }
     
     if ($_POST['submit']=="Save"){
-
+        
         if ($_POST['images']!=""){
              $qry = tep_fetch_object(tep_query("SELECT * FROM ".MEMBER." WHERE  (member_id = '".$_SESSION['member_id']."' OR member_id = '".md5($_GET['id'])."')"));
              if ($qry->member_document!=""){
@@ -237,7 +237,7 @@ tep_query("UPDATE ".MEMBER." SET complete = 1, fund_status = 'SUBMITTED', submis
                                                                      guardian_income ='".$guardian_income."'
                                                                      WHERE member_id = '".$id."'");
                                                         
-                                                        tep_query("UPDATE ".MEMBER." SET financial = 1 $photo WHERE member_id = '".$id."'");
+                                                        tep_query("UPDATE ".MEMBER." SET submission_created = NOW(), financial = 1 $photo WHERE member_id = '".$id."'");
                                                         
                                                         if ($_GET['action']=="edit" && $_SESSION['user_id']!=""){
                                                             tep_query("INSERT INTO ".TEMP."(member_id,action,temp_group,temp_createdby,temp_created) 
@@ -255,7 +255,7 @@ tep_query("UPDATE ".MEMBER." SET complete = 1, fund_status = 'SUBMITTED', submis
                                                      '".tep_input($_POST['mother_name'])."', '".$mother_ic."','".tep_input($_POST['mother_status'])."', '".$mother_phone."' ,'".tep_input($_POST['mother_position'])."' ,'".$mother_address."' , '".$mother_income."' ,
                                                         '".tep_input($_POST['guardian_name'])."', '".$guardian_ic."','".tep_input($_POST['guardian_status'])."', '".$guardian_phone."' ,'".tep_input($_POST['guardian_position'])."' ,'".$guardian_address."' , '".$guardian_income."')");
                                                  
-                                                 tep_query("UPDATE ".MEMBER." SET financial = 1 $photo WHERE member_id = '".$_SESSION['member_id']."'");
+                                                 tep_query("UPDATE ".MEMBER." SET submission_created = NOW(),financial = 1 $photo WHERE member_id = '".$_SESSION['member_id']."'");
                                                 
                                                  redirect("index.php?pages=financial_information");
                                                  
@@ -305,7 +305,7 @@ tep_query("UPDATE ".MEMBER." SET complete = 1, fund_status = 'SUBMITTED', submis
                                                   VALUES('".$_SESSION['member_id']."', '".tep_input($_POST['financial_assistant'])."', '".tep_input($_POST['father_name'])."', '".$father_ic."','".$_POST['father_status']."', '".$father_phone."', '".tep_input($_POST['father_position'])."', '".$father_address."', '".$father_income."',
                                                      '".tep_input($_POST['mother_name'])."', '".$mother_ic."','".tep_input($_POST['mother_status'])."', '".$mother_phone."' ,'".tep_input($_POST['mother_position'])."' ,'".$mother_address."' , '".$mother_income."')");
                                                  
-                                                 tep_query("UPDATE ".MEMBER." SET financial = 1 $photo WHERE member_id = '".$_SESSION['member_id']."'");
+                                                 tep_query("UPDATE ".MEMBER." SET submission_created = NOW(), financial = 1 $photo WHERE member_id = '".$_SESSION['member_id']."'");
                                               
                                                redirect("index.php?pages=financial_information");
                                                  }
@@ -351,7 +351,7 @@ tep_query("UPDATE ".MEMBER." SET complete = 1, fund_status = 'SUBMITTED', submis
                                                                      guardian_income ='".$guardian_income."'
                                                                      WHERE member_id = '".$id."'");
                                                         
-                                                        tep_query("UPDATE ".MEMBER." SET financial = 1 $photo WHERE member_id = '".$id."'");
+                                                        tep_query("UPDATE ".MEMBER." submission_created = NOW(), SET financial = 1 $photo WHERE member_id = '".$id."'");
                                                         
                                                          if ($_GET['action']=="edit" && $_SESSION['user_id']!=""){
                                                                tep_query("INSERT INTO ".TEMP."(member_id,action,temp_group,temp_createdby,temp_created) 
@@ -371,7 +371,7 @@ tep_query("UPDATE ".MEMBER." SET complete = 1, fund_status = 'SUBMITTED', submis
                                                      '".tep_input($_POST['mother_name'])."', '".$mother_ic."','".tep_input($_POST['mother_status'])."', '".$mother_phone."' ,'".tep_input($_POST['mother_position'])."' ,'".$mother_address."' , '".$mother_income."' ,
                                                         '".tep_input($_POST['guardian_name'])."', '".$guardian_ic."','".tep_input($_POST['guardian_status'])."', '".$guardian_phone."' ,'".tep_input($_POST['guardian_position'])."' ,'".$guardian_address."' , '".$guardian_income."')");
                                                  
-                                                 tep_query("UPDATE ".MEMBER." SET financial = 1 $photo WHERE member_id = '".$_SESSION['member_id']."'");
+                                                 tep_query("UPDATE ".MEMBER." SET submission_created = NOW(), financial = 1 $photo WHERE member_id = '".$_SESSION['member_id']."'");
                                                 redirect("index.php?pages=financial_information");
                                             }
                               
@@ -408,7 +408,7 @@ tep_query("UPDATE ".MEMBER." SET complete = 1, fund_status = 'SUBMITTED', submis
                                                                      mother_income =  '".$mother_income."'
                                                                      WHERE member_id = '".$id."'");
                                                         
-                                                        tep_query("UPDATE ".MEMBER." SET financial = 1 $photo WHERE member_id = '".$_SESSION['member_id']."'");
+                                                        tep_query("UPDATE ".MEMBER." SET submission_created = NOW(), financial = 1 $photo WHERE member_id = '".$_SESSION['member_id']."'");
                                                         
                                                           if ($_GET['action']=="edit" && $_SESSION['user_id']!=""){
                                                                 tep_query("INSERT INTO ".TEMP."(member_id,action,temp_group,temp_createdby,temp_created) 
@@ -426,7 +426,7 @@ tep_query("UPDATE ".MEMBER." SET complete = 1, fund_status = 'SUBMITTED', submis
                                                          '".tep_input($_POST['father_name'])."', '".$father_ic."','".$_POST['father_status']."', '".$father_phone."', '".tep_input($_POST['father_position'])."', '".$father_address."', '".$father_income."',
                                                      '".tep_input($_POST['mother_name'])."', '".$mother_ic."','".tep_input($_POST['mother_status'])."', '".$mother_phone."' ,'".tep_input($_POST['mother_position'])."' ,'".$mother_address."' , '".$mother_income."')");
                                                  
-                                                tep_query("UPDATE ".MEMBER." SET financial = 1 $photo WHERE member_id = '".$_SESSION['member_id']."'");
+                                                tep_query("UPDATE ".MEMBER." SET submission_created = NOW(), financial = 1 $photo WHERE member_id = '".$_SESSION['member_id']."'");
                                            
                                                  redirect("index.php?pages=financial_information");
                                             }
@@ -434,7 +434,42 @@ tep_query("UPDATE ".MEMBER." SET complete = 1, fund_status = 'SUBMITTED', submis
           }
             
         }
-       }
+        
+//Get member info
+
+$email = $_SESSION['member_email'];
+$headers = 'From: info@penangfuturefoundation.my' . "\r\n";
+$content_title = "Penang Future Foundation Account Verification";        
+
+$memberId = $_SESSION['member_id'];
+$query_member = tep_query("SELECT * FROM member WHERE member_id=$memberId");
+while ($row = mysql_fetch_array($query_member)) {
+    $member_info = $row;
+}        
+//        Sending message to user production
+//        $template = "Hi, \r\n \r\n Your schoolarship application form has submmited. Thank you. \r\n \r\n "
+//                    . "========= User Account Log ========= \r\n".$member_info['member_created']."             Account Registration \r\n "
+//                    . $member_info['submission_created']. "             Form submission \r\n \r\n -- \r\n \r\n"
+//                    . "Best regards,\r\n Penang Future Foundation \r\n \r\n \r\n \r\n";
+//
+//
+//        mail($email, $content_title, $template, $headers);
+
+
+//Localhost send mail method
+        
+        $template = "Hi, <br/><br/>Your schoolarship application form has submmited. Thank you.<br><br>
+                ========= User Account Log ========= <br><br>
+               ".$member_info['member_created']."             Account Registration <br><br>"
+                .$member_info['submission_created']."             Form submission <br><br> <br><br>    
+            --<br><br/>
+                                                                        Best regards,<br/>
+            Penang Future Foundation\n\n\n<br/>";    
+
+
+        PHPMail($email,$template,$content_title );  
+        
+}
     
     
 if ($_GET['tempid']!=""){
